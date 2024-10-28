@@ -8,6 +8,10 @@ module Gitland
       Commands::Clone.new(@repository).execute
     end
 
+    def pull
+      Commands::Pull.new(@repository).execute
+    end
+
     def log(format: nil, first_parent: false)
       Commands::Log.new(@repository, format: format, first_parent: first_parent).execute { |logs| yield logs }
     end
