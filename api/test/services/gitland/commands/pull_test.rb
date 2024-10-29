@@ -8,10 +8,12 @@ module Gitland
       end
 
       test "#execute pulls the repository" do
-        repo = Git.open(Rails.root.join("storage", "gitland", "repositories", "1.git").to_s)
-        repo.expects(:pull)
+        disk_path = Gitland::Storage.new(@repository).absolute_path
+        repo = mock("Git repository")
 
-        Git.stubs(:open).returns(repo)
+        Git.expects(:open).with(disk_path).returns(repo)
+
+        repo.expects(:pull)
 
         Gitland::Commands::Pull.new(@repository).execute
       end
