@@ -61,7 +61,7 @@ class RepositorySyncService
     latest_commit_hash = @repository.commits.last.commit_hash
     current_commit_hash = nil
 
-    gitland_repository.log(from_commit: latest_commit_hash, format: "||%H||%aN||%cs||%as||%P||%s") do |logs|
+    gitland_repository.log(latest_commit_hash: latest_commit_hash, format: "||%H||%aN||%cs||%as||%P||%s") do |logs|
       logs.each do |line|
         line.force_encoding("utf-8")
 
@@ -87,7 +87,7 @@ class RepositorySyncService
     latest_commit_hash = @repository.commits.last.commit_hash
     current_commit_hash = nil
 
-    gitland_repository.log(from_commit: latest_commit_hash, format: "||%H||%aN||%cs||%as||%P||%s", first_parent: true) do |logs|
+    gitland_repository.log(latest_commit_hash: latest_commit_hash, format: "||%H||%aN||%cs||%as||%P||%s", first_parent: true) do |logs|
       logs.each do |line|
         line.force_encoding("utf-8")
 
