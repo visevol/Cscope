@@ -5,6 +5,7 @@ class RepositorySyncService
 
   def index
     gitland_repository = Gitland::Repository.new(@repository)
+    gitland_repository.pull
 
     extract_full_commit_history(gitland_repository)
     extract_commit_history_for_changes_ledger(gitland_repository)
@@ -57,9 +58,10 @@ class RepositorySyncService
 
   def extract_full_commit_history(gitland_repository)
     batch = Batch.new
+    latest_commit_hash = @repository.commits.last.commit_hash
     current_commit_hash = nil
 
-    gitland_repository.log(format: "||%H||%aN||%cs||%as||%P||%s") do |logs|
+    gitland_repository.log(from_commit: latest_commit_hash, format: "||%H||%aN||%cs||%as||%P||%s") do |logs|
       logs.each do |line|
         line.force_encoding("utf-8")
 
@@ -82,9 +84,10 @@ class RepositorySyncService
 
   def extract_commit_history_for_changes_ledger(gitland_repository)
     batch = Batch.new
+    latest_commit_hash = @repository.commits.last.commit_hash
     current_commit_hash = nil
 
-    gitland_repository.log(format: "||%H||%aN||%cs||%as||%P||%s", first_parent: true) do |logs|
+    gitland_repository.log(from_commit: latest_commit_hash, format: "||%H||%aN||%cs||%as||%P||%s", first_parent: true) do |logs|
       logs.each do |line|
         line.force_encoding("utf-8")
 

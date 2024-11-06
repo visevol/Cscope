@@ -12,8 +12,8 @@ module Gitland
       Commands::Pull.new(@repository).execute
     end
 
-    def log(format: nil, first_parent: false)
-      Commands::Log.new(@repository, format: format, first_parent: first_parent).execute { |logs| yield logs }
+    def log(latest_commit_hash: nil, format: nil, first_parent: false)
+      Commands::Log.new(@repository, latest_commit_hash: latest_commit_hash, format: format, first_parent: first_parent).execute { |logs| yield logs }
     end
 
     def list_all_files_with_size

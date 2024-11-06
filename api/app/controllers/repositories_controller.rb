@@ -27,9 +27,7 @@ class RepositoriesController < ApplicationController
   def sync
     return render_repository_not_found unless current_repository
 
-    Gitland::Repository.new(current_repository)
-      .then(&:pull)
-      .then { RepositorySyncJob.perform_later(repository_id: current_repository.id) }
+    RepositorySyncJob.perform_later(repository_id: current_repository.id)
 
     render(json: current_repository, status: 202)
   end
