@@ -12,6 +12,7 @@ Rails.application.routes.draw do
 
   get "/repositories/:repository_id", to: "repositories#show"
   post "/repositories", to: "repositories#create"
+  post "/repositories/:repository_id/sync", to: "repositories#sync"
 
   get "/repositories/:repository_id/tree/head", to: "trees#show"
 

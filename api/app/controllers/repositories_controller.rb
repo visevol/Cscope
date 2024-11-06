@@ -23,4 +23,12 @@ class RepositoriesController < ApplicationController
       render(json: { message: "could not create repository.", errors: repositoy.errors.full_messages }, status: 400)
     end
   end
+
+  def sync
+    return render_repository_not_found unless current_repository
+
+    RepositorySyncJob.perform_later(repository_id: current_repository.id)
+
+    render(json: current_repository, status: 202)
+  end
 end
