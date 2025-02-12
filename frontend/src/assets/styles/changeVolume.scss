@@ -7,7 +7,6 @@
   box-shadow: $box-shadow;
   margin-top: 30px;
   padding-bottom: 20px;
-  width: 460px;
   letter-spacing: 0.1rem;
 }
 
@@ -24,14 +23,15 @@
 
 .metrics__item {
   padding: 10px;
-  > span:nth-child(1) {
+
+  >span:nth-child(1) {
     display: inline-block;
     width: 30%;
     font-weight: bold;
     color: $bg-active-color;
   }
 
-  > span:nth-child(2) {
+  >span:nth-child(2) {
     color: $text-color;
   }
 }

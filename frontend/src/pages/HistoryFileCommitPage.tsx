@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useDataSettingContext } from "../context/DataSettingContext";
-import "assets/styles/evolutionFileCommit.scss";
-import DateAndFileInput from "components/DateAndFileInput";
-import MotionChartDisplay from "components/MotionChartDisplay";
-import { FileHistoryCommit } from "models/FileHistoryCommit";
+import "../assets/styles/evolutionFileCommit.scss";
+import DateAndFileInput from "../components/DateAndFileInput";
+import MotionChartDisplay from "../components/MotionChartDisplay";
+import { FileHistoryCommit } from "../models/FileHistoryCommit";
 
-import { fileHistoryByDate, getFileTypes } from "api";
+import { fileHistoryByDate, getFileTypes } from "../api";
 import { Spin } from "antd";
-import FileTypeChangeFilter from "components/FileTypeChangeFilter";
+import FileTypeChangeFilter from "../components/FileTypeChangeFilter";
+import KeywordFilter from "../components/KeywordFilter";
 import { useParams } from "react-router-dom";
 import {
   evolutionTypeToCategory,
   typeEvolutionOptions,
-} from "utils/tooltipHelper";
+} from "../utils/tooltipHelper";
 
 const HistoryFileCommitPage: React.FC = () => {
   const [data, setData] = useState<FileHistoryCommit[]>([]);
@@ -34,6 +35,8 @@ const HistoryFileCommitPage: React.FC = () => {
   const [checkTypeEvolution, setCheckTypeEvolution] =
     useState<string[]>(typeEvolutionOptions);
   const { id } = useParams<{ id: string }>();
+
+  const [keywordFilter, setKeywordFilter] = useState<string>("");
 
   useEffect(() => {
     const fetchFilesTypes = async () => {
@@ -88,32 +91,44 @@ const HistoryFileCommitPage: React.FC = () => {
         ? selectfilterTypeFiles.includes(item.filetype)
         : true;
     });
-
+  
     const newFilterData = newFilterPathData.filter((item: any) => {
       const type = evolutionTypeToCategory.get(item.typeEvolution);
       return type && checkTypeEvolution.includes(type);
     });
-    setFilterData(newFilterData);
-  }, [pathFilterData, selectfilterTypeFiles, checkTypeEvolution]);
+  
+    const filteredByKeyword = newFilterData.filter((item: any) => {
+      const directoryPath = item.fileName.substring(0, item.fileName.lastIndexOf('/'));
+      return directoryPath.toLowerCase().includes(keywordFilter.toLowerCase());
+    });
+  
+    setFilterData(filteredByKeyword);
+  }, [pathFilterData, selectfilterTypeFiles, checkTypeEvolution, keywordFilter]);
 
   return (
-    <div className="two-side-structure">
-      <div className="page">
-        {ready ? (
-          <MotionChartDisplay fileHistoryCommitData={filterData} />
-        ) : (
-          <Spin size="large" />
-        )}
-      </div>
-      <div>
-        <DateAndFileInput />
-        <FileTypeChangeFilter
-          fileTypes={typeFiles}
-          filterTypeFiles={selectfilterTypeFiles}
-          setFilterTypeFiles={setSelectFilterTypeFiles}
-          checkedList={checkTypeEvolution}
-          setCheckedList={setCheckTypeEvolution}
-        />
+    <div className="container">
+      <div className="row g-4">
+        <div className="page col-12 col-lg-8">
+          {ready ? (
+            <MotionChartDisplay fileHistoryCommitData={filterData} />
+          ) : (
+            <Spin size="large" />
+          )}
+        </div>
+        <div className="col-12 col-lg-4">
+          <KeywordFilter 
+            value={keywordFilter}
+            onChange={setKeywordFilter}/>
+
+          <DateAndFileInput />
+          <FileTypeChangeFilter
+            fileTypes={typeFiles}
+            filterTypeFiles={selectfilterTypeFiles}
+            setFilterTypeFiles={setSelectFilterTypeFiles}
+            checkedList={checkTypeEvolution}
+            setCheckedList={setCheckTypeEvolution}
+          />
+        </div>
       </div>
     </div>
   );

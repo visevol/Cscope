@@ -1,8 +1,8 @@
-import MainLayout from "layout/MainLayout";
-import ChangeVolumePage from "pages/ChangeVolumePage";
-import DevelopersInputPage from "pages/DevelopersInputPage";
-import HistoryFileCommitPage from "pages/HistoryFileCommitPage";
-import StartProjectPage from "pages/StartProjectPage";
+import MainLayout from "./layout/MainLayout";
+import ChangeVolumePage from "./pages/ChangeVolumePage";
+import DevelopersInputPage from "./pages/DevelopersInputPage";
+import HistoryFileCommitPage from "./pages/HistoryFileCommitPage";
+import StartProjectPage from "./pages/StartProjectPage";
 import { RouteObject } from "react-router-dom";
 
 const routes: RouteObject[] = [

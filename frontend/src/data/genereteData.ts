@@ -21,8 +21,8 @@ export const generateFileName = (): string => {
     "wishlist",
     "admin",
     "payment",
-    "api",
-    "utils",
+    "../api",
+    "../utils",
   ];
   const suffixes = [
     "service",

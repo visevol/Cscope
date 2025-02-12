@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDataSettingContext } from "../context/DataSettingContext";
-import "assets/styles/developersInput.scss";
-import DateAndFileInput from "components/DateAndFileInput";
+import "../assets/styles/developersInput.scss";
+import DateAndFileInput from "../components/DateAndFileInput";
 import { useParams } from "react-router-dom";
 
 const DevelopersInputPage: React.FC = () => {
@@ -16,11 +16,15 @@ const DevelopersInputPage: React.FC = () => {
   }, [id]);
 
   return (
-    <div className="two-side-structure">
-      <div className="page">
-        <div className="visualization-placeholder">[Coming soon...]</div>
+    <div className="container">
+      <div className="row g-4">
+        <div className="page col-12 col-lg-8">
+          <div className="visualization-placeholder">[Coming soon...]</div>
+        </div>
+        <div className="col-12 col-lg-4">
+          <DateAndFileInput />
+        </div>
       </div>
-      <DateAndFileInput />
     </div>
   );
 };

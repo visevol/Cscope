@@ -1,8 +1,8 @@
 import React from "react";
-import { BrowserRouter, useRoutes } from "react-router-dom";
+import { MemoryRouter, useRoutes } from "react-router-dom";
 import routes from "./routes";
-import "assets/styles/_global.scss";
-import { DataSettingProvider } from "provider/DataSettingProvider";
+import "./assets/styles/_global.scss";
+import { DataSettingProvider } from "./provider/DataSettingProvider";
 
 const App: React.FC = () => {
   const element = useRoutes(routes);
@@ -10,11 +10,11 @@ const App: React.FC = () => {
 };
 
 const AppWrapper: React.FC = () => (
-  <BrowserRouter>
+  <MemoryRouter>
     <DataSettingProvider>
       <App />
     </DataSettingProvider>
-  </BrowserRouter>
+  </MemoryRouter>
 );
 
 export default AppWrapper;

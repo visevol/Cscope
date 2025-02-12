@@ -1,13 +1,11 @@
 import React from "react";
-import { useDataSettingContext } from "context/DataSettingContext";
+import { useDataSettingContext } from "../context/DataSettingContext";
 import { ConfigProvider, DatePicker, DatePickerProps, Select } from "antd";
 import dayjs from "dayjs";
 
 const { RangePicker } = DatePicker;
 
 const DateAndFileInput: React.FC = () => {
-  const inputWidth = 200;
-
   const {
     startDate,
     setStartDate,
@@ -42,7 +40,6 @@ const DateAndFileInput: React.FC = () => {
           <label>Choose file : </label>
           <Select
             showSearch
-            style={{ width: inputWidth * 2 + 20, height: 45 }}
             placeholder="Search by filename"
             optionFilterProp="label"
             value={filePath}
@@ -59,7 +56,7 @@ const DateAndFileInput: React.FC = () => {
         </div>
         <div>
           <div>
-            <label style={{ width: 200 }}>Start date : </label>
+            <label>Start date : </label>
           </div>
           <div>
             <label>End date : </label>
@@ -67,7 +64,7 @@ const DateAndFileInput: React.FC = () => {
         </div>
         <div>
           <RangePicker
-            style={{ width: 420, height: 45 }}
+            className="w-100"
             value={[dayjs(startDate), dayjs(endDate)]}
             onChange={onDateChange}
           />

@@ -1,15 +1,15 @@
 // src/components/GraphDisplay.tsx
-import React, { useEffect, useLayoutEffect, useMemo, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import * as am5 from "@amcharts/amcharts5";
 import * as am5hierarchy from "@amcharts/amcharts5/hierarchy";
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
 
-import { FileFolderCommits } from "models/FileFolderCommits";
-import { GraphNode } from "models/GraphNode";
-import { convertToGraphData } from "utils/algofileFolderData";
-import { SliderFilterCodeLine } from "models/SliderFilterCodeLine";
-import { useDataSettingContext } from "context/DataSettingContext";
-import { getFileData } from "api";
+import { FileFolderCommits } from "../models/FileFolderCommits";
+import { GraphNode } from "../models/GraphNode";
+import { convertToGraphData } from "../utils/algofileFolderData";
+import { SliderFilterCodeLine } from "../models/SliderFilterCodeLine";
+import { useDataSettingContext } from "../context/DataSettingContext";
+import { getFileData } from "../api";
 import { Spin } from "antd";
 
 const BubbleGraphDisplay = ({

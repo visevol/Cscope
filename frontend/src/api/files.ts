@@ -1,8 +1,8 @@
 import axios from "axios";
-import { FileHistoryCommit } from "models/FileHistoryCommit";
-import { TypeFileCommitEvolution } from "enum/TypeFileCommitEvolution";
-import { FileData } from "models/FileData";
-import { FileFolderCommits } from "models/FileFolderCommits";
+import { FileHistoryCommit } from "../models/FileHistoryCommit";
+import { TypeFileCommitEvolution } from "../enum/TypeFileCommitEvolution";
+import { FileData } from "../models/FileData";
+import { FileFolderCommits } from "../models/FileFolderCommits";
 
 export async function fileHistoryByDate(
   repositoryId: number,

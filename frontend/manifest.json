@@ -1,0 +1,15 @@
+{
+    "version": "0.0.1",
+    "manifest_version": 3,
+    "name": "CScope",
+    "description": "CScope",
+    "action": {
+        "default_title": "CScope",
+        "default_popup": "js/index.html",
+        "default_state": "disabled"
+    },
+    "permissions": ["declarativeContent", "scripting", "activeTab"],
+	"background": {
+		"service_worker": "js/background.js"
+	}
+}

@@ -1,6 +1,6 @@
 import axios from "axios";
-import Repository from "models/repository";
-import RemoteRepository from "models/remoteRepository";
+import Repository from "../models/repository";
+import RemoteRepository from "../models/remoteRepository";
 
 interface RepositorySearchResult {
   repository: Repository | null;

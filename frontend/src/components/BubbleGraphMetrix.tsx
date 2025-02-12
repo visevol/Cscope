@@ -1,4 +1,4 @@
-import { MetricsProps } from "models/MetricsProps";
+import { MetricsProps } from "../models/MetricsProps";
 
 const BuddleGraphMetrics = ({
   metricsProps,

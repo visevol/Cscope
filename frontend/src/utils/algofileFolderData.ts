@@ -1,6 +1,6 @@
 import * as am5 from "@amcharts/amcharts5";
-import { FileFolderCommits } from "models/FileFolderCommits";
-import { GraphNode } from "models/GraphNode";
+import { FileFolderCommits } from "../models/FileFolderCommits";
+import { GraphNode } from "../models/GraphNode";
 
 // Fonction utilitaire pour déterminer la couleur du nœud
 const getNodeColor = (additions: number, deletions: number): am5.Color => {

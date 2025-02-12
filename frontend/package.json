@@ -14,6 +14,7 @@
     "@types/react-dom": "^18.3.1",
     "antd": "^5.21.6",
     "axios": "^1.7.7",
+    "bootstrap": "^5.3.3",
     "cross-env": "^7.0.3",
     "ext-name": "^5.0.0",
     "file-type": "^19.6.0",
@@ -24,13 +25,16 @@
     "react-scripts": "5.0.1",
     "sass": "^1.81.0",
     "typescript": "^4.9.5",
+    "utils-merge": "^1.0.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "cross-env PORT=4000 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "ext-build": "webpack --config webpack.config.js",
+    "ext-watch": "webpack -w --config webpack.config.js"
   },
   "eslintConfig": {
     "extends": [
@@ -49,5 +53,15 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.0.304",
+    "copy-webpack-plugin": "^12.0.2",
+    "css-loader": "^7.1.2",
+    "html-webpack-plugin": "^5.6.3",
+    "ts-loader": "^9.5.2",
+    "ts-node": "^10.9.2",
+    "webpack": "^5.97.1",
+    "webpack-cli": "^6.0.1"
   }
 }

@@ -1,8 +1,8 @@
-import { DataSettingContext } from "context/DataSettingContext";
+import { DataSettingContext } from "../context/DataSettingContext";
 import React, { useState, ReactNode, useEffect } from "react";
 import dayjs from "dayjs";
-import { getFilesRepository, getRepositoryById } from "api";
-import Repository from "models/repository";
+import { getFilesRepository, getRepositoryById } from "../api";
+import Repository from "../models/repository";
 
 export const DataSettingProvider: React.FC<{
   children: ReactNode;

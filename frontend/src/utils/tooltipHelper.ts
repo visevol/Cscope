@@ -1,5 +1,5 @@
 // src/utils/tooltipHelper.ts
-import { TypeFileCommitEvolution } from "enum/TypeFileCommitEvolution";
+import { TypeFileCommitEvolution } from "../enum/TypeFileCommitEvolution";
 import dayjs from "dayjs";
 
 export const typeEvolutionOptions = ["Add", "Set", "Delete"];

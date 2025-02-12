@@ -2,10 +2,13 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import AppWrapper from "./App";
 
-const root = ReactDOM.createRoot(
-  document.getElementById("root") as HTMLElement
-);
-root.render(
+// Only used in the extension
+const root = document.createElement("div");
+document.body.appendChild(root);
+
+const rootDiv = ReactDOM.createRoot(root);
+
+rootDiv.render(
   <React.StrictMode>
     <AppWrapper />
   </React.StrictMode>

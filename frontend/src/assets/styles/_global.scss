@@ -1,4 +1,6 @@
 @import "_variables";
+@import "_bt_variables";
+@import "../../../node_modules/bootstrap/scss/bootstrap.scss";
 
 *,
 *::before,
@@ -10,18 +12,15 @@
 
 body {
   font-family: "Roboto", sans-serif;
+  min-width: 720px;
 }
 
 .back-svg-forme {
-  width: 100vw;
-  height: 100vh;
   background-image: url("../svg/backgroundForm.svg");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  min-height: 100vh;
 }
 
 .date-file-input {
@@ -30,7 +29,6 @@ body {
   padding: 20px;
   display: flex;
   flex-direction: column;
-  width: 460px;
 
   label {
     margin-bottom: 10px;
@@ -39,43 +37,35 @@ body {
     letter-spacing: 0.08rem;
   }
 
-  > div:nth-child(1) {
+  >div:nth-child(1) {
     display: flex;
     flex-direction: column;
-    margin: 20px 0px;
+    margin-bottom: 2rem;
   }
 
-  > div:nth-child(2) {
+  >div:nth-child(2) {
     display: flex;
-    > div {
+
+    >div {
       display: flex;
       flex-direction: column;
       margin-bottom: 10px;
     }
 
-    > div:nth-child(1) {
+    >div:nth-child(1) {
       margin-right: 20px;
     }
   }
 }
 
-.two-side-structure {
-  display: flex;
-  align-items: start;
-}
-
 .page {
   display: flex;
   background-color: #fff;
-  padding: 20px;
-  height: 640px;
-  margin-right: 20px;
   justify-content: center;
   align-items: center;
   border-radius: $border-radius;
   box-shadow: $box-shadow;
-  width: calc(100% - 420px);
-  min-width: 700px;
+
   h2 {
     font-size: 1.2rem;
     color: $header-color;
@@ -110,5 +100,27 @@ body {
     font-weight: bold;
     color: $text-page-color;
     letter-spacing: 0.08rem;
+  }
+}
+
+.icon-button {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  color: $text-page-color;
+  background-color: $bg-button;
+  border-radius: 100%;
+  cursor: pointer;
+
+  * {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  &:hover * {
+    color: $hover-color !important;
   }
 }

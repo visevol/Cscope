@@ -1,6 +1,6 @@
 // src/data/mockData.ts
 import * as am5 from "@amcharts/amcharts5";
-import Project from "models/Project";
+import Project from "../models/Project";
 
 export const mockFiles = [
   { filename: "file1.cpp", codeHealth: 9, commits: 20, lineCoverage: 80 },

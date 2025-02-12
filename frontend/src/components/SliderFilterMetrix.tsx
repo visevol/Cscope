@@ -1,5 +1,5 @@
 import { ConfigProvider, Slider } from "antd";
-import { SliderFilterCodeLine } from "models/SliderFilterCodeLine";
+import { SliderFilterCodeLine } from "../models/SliderFilterCodeLine";
 import { useEffect, useState } from "react";
 
 const colorRanges = [

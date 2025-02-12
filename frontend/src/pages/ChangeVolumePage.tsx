@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useDataSettingContext } from "../context/DataSettingContext";
-import "assets/styles/changeVolume.scss";
-import DateAndFileInput from "components/DateAndFileInput";
-import BuddleGraphMetrics from "components/BubbleGraphMetrix";
-import { MetricsProps } from "models/MetricsProps";
-import SliderFilterMetrix from "components/SliderFilterMetrix";
-import { FileFolderCommits } from "models/FileFolderCommits";
-import BubbleGraphDisplay from "components/BubbleGraphDisplay";
+import "../assets/styles/changeVolume.scss";
+import DateAndFileInput from "../components/DateAndFileInput";
+import BuddleGraphMetrics from "../components/BubbleGraphMetrix";
+import { MetricsProps } from "../models/MetricsProps";
+import SliderFilterMetrix from "../components/SliderFilterMetrix";
+import { FileFolderCommits } from "../models/FileFolderCommits";
+import BubbleGraphDisplay from "../components/BubbleGraphDisplay";
 import { useParams } from "react-router-dom";
-import { getFileData, getFileOverTime } from "api";
-import { SliderFilterCodeLine } from "models/SliderFilterCodeLine";
+import { getFileData, getFileOverTime } from "../api";
+import { SliderFilterCodeLine } from "../models/SliderFilterCodeLine";
 import { Spin } from "antd";
-import { getFileName } from "utils/tooltipHelper";
+import { getFileName } from "../utils/tooltipHelper";
 
 const ChangeVolumePage: React.FC = () => {
   const {
@@ -108,7 +108,7 @@ const ChangeVolumePage: React.FC = () => {
                 mainAuthor: fileData.main_contributor.author,
                 modifiedDate: formattedDate,
               });
-            } catch (error) {}
+            } catch (error) { }
           }
         }
 
@@ -121,28 +121,32 @@ const ChangeVolumePage: React.FC = () => {
   }, [repository, startDate, endDate, filePath]);
 
   return (
-    <div className="two-side-structure">
-      <div className="page">
-        {ready ? (
-          <BubbleGraphDisplay
-            filterAddLineMetrics={filterAddLineMetrics}
-            filterDeleteLineMetrics={filterDeleteLineMetrics}
-            fileFolderDatas={fileFolderDatas}
-            setBubbleMetrix={setBubbleMetrix}
-          />
-        ) : (
-          <Spin size="large" />
-        )}
-      </div>
-      <div>
-        <DateAndFileInput />
-        <SliderFilterMetrix
-          filterAddLineMetrics={filterAddLineMetrics}
-          setFilterAddLineMetrics={setFilterAddLineMetrics}
-          filterDeleteLineMetrics={filterDeleteLineMetrics}
-          setFilterDeleteLineMetrics={setFilterDeleteLineMetrics}
-        />
-        <BuddleGraphMetrics metricsProps={bubbleMetrix} />
+    <div className="container">
+      <div className="row g-4">
+        <div className="page col-12 col-lg-8">
+          {ready ? (
+            <BubbleGraphDisplay
+              filterAddLineMetrics={filterAddLineMetrics}
+              filterDeleteLineMetrics={filterDeleteLineMetrics}
+              fileFolderDatas={fileFolderDatas}
+              setBubbleMetrix={setBubbleMetrix}
+            />
+          ) : (
+            <Spin size="large" />
+          )}
+        </div>
+        <div className="col-12 col-lg-4">
+          <div className="d-flex flex-column">
+            <DateAndFileInput />
+            <SliderFilterMetrix
+              filterAddLineMetrics={filterAddLineMetrics}
+              setFilterAddLineMetrics={setFilterAddLineMetrics}
+              filterDeleteLineMetrics={filterDeleteLineMetrics}
+              setFilterDeleteLineMetrics={setFilterDeleteLineMetrics}
+            />
+            <BuddleGraphMetrics metricsProps={bubbleMetrix} />
+          </div>
+        </div>
       </div>
     </div>
   );

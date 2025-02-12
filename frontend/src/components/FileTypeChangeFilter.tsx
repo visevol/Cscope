@@ -1,11 +1,11 @@
 import { Checkbox, CheckboxProps, ConfigProvider, Select } from "antd";
 import { SizeType } from "antd/es/config-provider/SizeContext";
-import { TypeFileCommitEvolution } from "enum/TypeFileCommitEvolution";
+import { TypeFileCommitEvolution } from "../enum/TypeFileCommitEvolution";
 import { useState } from "react";
 import {
   categoryToEvolutionType,
   typeEvolutionOptions,
-} from "utils/tooltipHelper";
+} from "../utils/tooltipHelper";
 
 const CheckboxGroup = Checkbox.Group;
 
@@ -22,7 +22,6 @@ const FileTypeChangeFilter = ({
   checkedList: string[];
   setCheckedList: any;
 }) => {
-  const inputWidth = 200;
   const [size, setSize] = useState<SizeType>("middle");
 
   const handleChange = (ftfs: string[]) => {
@@ -55,7 +54,6 @@ const FileTypeChangeFilter = ({
           <label>Choose file type : </label>
           <Select
             mode="multiple"
-            style={{ width: inputWidth * 2 + 20 }}
             value={filterTypeFiles}
             size={size}
             onChange={handleChange}
