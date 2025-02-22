@@ -9,7 +9,15 @@
         "default_state": "disabled"
     },
     "permissions": ["declarativeContent", "scripting", "activeTab"],
-	"background": {
-		"service_worker": "js/background.js"
-	}
+    "content_scripts": [
+        {
+            "js": [
+                "js/background.js",
+                "js/index.js"
+            ],
+            "matches": [
+                "https://github.com/*/*"
+            ]
+        }
+    ]
 }
