@@ -3,20 +3,22 @@
     "manifest_version": 3,
     "name": "CScope",
     "description": "CScope",
-    "action": {
-        "default_title": "CScope",
-        "default_popup": "js/index.html",
-        "default_state": "disabled"
+    "permissions": [
+        "declarativeContent",
+        "scripting",
+        "activeTab"
+    ],
+    "background": {
+        "service_worker": "js/background.js"
     },
-    "permissions": ["declarativeContent", "scripting", "activeTab"],
     "content_scripts": [
         {
             "js": [
-                "js/background.js",
+                "js/content.js",
                 "js/index.js"
             ],
             "matches": [
-                "https://github.com/*/*"
+                "https://github.com/**"
             ]
         }
     ]
