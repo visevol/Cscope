@@ -8,8 +8,7 @@
 - Félix Lavoie - LAVF75030009
 - William Nolin - NOLW76060101
 - Alexis Castonguay - CASA84020104
-
-## Dans le cadre de 
+### Dans le cadre de 
 LOG795 – Projet de fin d’étude 
 
 
@@ -18,13 +17,14 @@ LOG795 – Projet de fin d’étude
 2. [Description générale](#description_generale)
 3. [Cas d'utilisation](#cas_utilisation)
 4. [Exigences](#exigences)
-5. [Documentation pour l'utilisateur et exigences du système]()
-6. [Contraintes de conception]()
-7. [Interfaces]()
-8. [Exigences de licence]()
-9. [Remarques légales, de droits d'auteur et diverses]()
-10. [Normes applicables]()
-11. [Annexes]()
+5. [Documentation pour l'utilisateur et exigences du système](#documentation)
+6. [Contraintes de conception](#contraintes)
+7. [Interfaces](#interfaces)
+8. [Exigences de licence](#licence)
+9. [Remarques légales, de droits d'auteur et diverses](#remarques)
+10. [Normes applicables](#normes)
+11. [Annexes](#annexes)
+
 
 ## 1. Introduction <a name="introduction"></a>
 ### 1.1. Objectif de ce document
@@ -34,10 +34,13 @@ Ce document couvre les fonctionnalités principales du système, les exigences f
 Ci-dessus, on peut voir comment le système et les entitées externes intéragissent.
 ![Diagramme de Cas d'Utilisation](out/diagrammes-srs/portee/portee.svg)
 ### 1.3. Définitions
-| Terme    | Définition |
-| -------- | ------- |
-| Développeur  | Toute personne contribuant à un projet GitHub.    |
-| Gestionnaire | Toute personne supervisant le déroulement d'un projet.     |
+|Terme|Définition|
+|:-:|:-:|
+|Développeur |Toute personne contribuant à un projet GitHub.|
+|Gestionnaire|Toute personne supervisant le déroulement d'un projet.|
+|Commit|Unité de modification enregistrée dans un système de contrôle de versions.|
+|GitHub|Plateforme de gestion de versions et de collaboration pour le développement de logiciels.|
+|API|Interface de programmation permettant à des applications de communiquer entre elles.|
 ### 1.4. Aperçu du Projet
 Le projet vise à développer un outil permettant de visualiser l’évolution des changements des différents types de fichiers de code au niveau des commits sur [GitHub](https://github.com/). Il identifiera visuellement les fichiers ajoutés, les types de fichiers modifiés, la fréquence des changements, la stabilité des fichiers, et les fichiers modifiés simultanément. L'outil apportera des informations pertinentes pour les gestionnaires de projet et les développeurs afin de comprendre l'historique d'évolution du code.
 
@@ -65,7 +68,6 @@ Pour atteindre les objectifs de ce projet, nous adopterons une méthodologie agi
 **Cas de Variations** :
 - Le fichier n'existe pas dans le répertoire.
 - Le développeur n'a pas les droits d'accès au répertoire.
-
 ### 3.2. Identifier les fichiers les plus modifiés pour évaluer les zones de risque du projet
 **Description** : Un gestionnaire de projet souhaite identifier les fichiers les plus modifiés pour évaluer les zones de risque du projet.
 **Acteurs** : Gestionnaire de projet
@@ -76,7 +78,6 @@ Pour atteindre les objectifs de ce projet, nous adopterons une méthodologie agi
 **Cas de Variations** :
 - Le gestionnaire n'a pas les droits d'accès au répertoire.
 - Les données de modification ne sont pas disponibles.
-
 ### 3.3. Obtenir une vue d'ensemble des changements apportés à une version du logiciel
 **Description** : Un client souhaite obtenir une vue d'ensemble des changements apportés à une version du logiciel pour comprendre les améliorations et les correctifs.
 **Acteurs** : Client
@@ -126,22 +127,21 @@ L'application doit être fiable et disponible à tout moment, avec un minimum de
 #### Scalabilité
 L'application doit pouvoir évoluer pour gérer une augmentation du nombre de projets GitHub.
 
-
-## Planification préliminaire et budget
-### Estimation du temps de développement
+### Planification préliminaire et budget
+#### Estimation du temps de développement
 Comme le projet est open source et sujet à des sessions de PFE, il est difficile d'estimer le temps de développement. Des équipes vont se léguer le projet selon un cycle d'environ 4 mois. Chacun de ces cycles comprendra les phases de conception, de développement, de test et de déploiement.
-### Estimation des coûts
+#### Estimation des coûts
 Aucun coût ne sera relié au développement de l'application dans le contexte de notre PFE.
 
 
-## 5. Documentation pour l'utilisateur et exigences du système
+## 5. Documentation pour l'utilisateur et exigences du système <a name="documentation"></a>
 - **ED-01** : La documentation doit être rédigée en français uniquement.
 - **ED-02** : La documentation doit être accessible à partir de GitHub.
 - **ED-03** : La documentation doit consister en un ou plusieurs documents à part entière
 - **ED-04** : Le répertoire GitHub doit contenir un README.md qui contiendra un guide d’installation du logiciel, les dépendances et un résumé d’utilisation.
 
 
-## 6. Contraintes de conception
+## 6. Contraintes de conception <a name="contraintes"></a>
 ### Contraintes de programmation
 - Le back-end logiciel doit être écrit en Ruby, utiliser le cadriciel Ruby on Rails et respecter les normes d’écriture de ce langage.
 - Le front-end logiciel doit être écrit en React et respecter les normes d’écriture de ce langage.
@@ -155,7 +155,7 @@ Aucun coût ne sera relié au développement de l'application dans le contexte d
 - Déploiement de l'application en utilisant Docker pour une meilleure gestion des environnements et une portabilité accrue.
 
 
-## 7. Interfaces
+## 7. Interfaces <a name="interfaces"></a>
 ### Interfaces utilisateur
 L'interface utilisateur sera une application Web interactive avec des éléments graphiques pour visualiser les données des commits.
 Elle comprendra :
@@ -184,6 +184,7 @@ Elle comprendra :
 ![Page de visualisation de l'historique des modifications sur un ou des fichiers.](resources/file_history.png "Page de visualisation de l'historique des modifications sur un ou des fichiers")
 #### Page du futur Developer's Input
 ![Page du futur Developer's Input](resources/developer_input.png "Page du futur Developer's Input")
+
 ### Interfaces logicielles
 - La communication entre Cscope et GitHub doit se faire via l'API de GitHub.
 - Utilisation de la librairie PyDriller pour extraire les données des commits de Git.
@@ -194,21 +195,21 @@ Elle comprendra :
 - L'application sera déployée et exécutée dans des conteneurs Docker pour assurer une portabilité et une isolation des environnements.
 
 
-## 8. Exigences de licence
+## 8. Exigences de licence <a name="licence"></a>
 Le code source du projet CScope est sous licence MIT. Une traduction de la license est disponible ici: https://www.debian.org/legal/licenses/mit.
 Pour plus d'informations, vérifier le fichier *LICENSE.md* du dépôt.
 
 
-## 9. Remarques légales, de droits d'auteur et diverses
+## 9. Remarques légales, de droits d'auteur et diverses <a name="remarques"></a>
 La seule remarque concernant ce projet est que le code source doit être à source ouverte
 (open source) pour respecter les requis du PFE.
 
 
-## 10. Normes applicables
+## 10. Normes applicables <a name="normes"></a>
 Les normes de nomenclature des langages de programmation utilisés doivent être respectées. Le logiciel doit être fonctionnel sur une machine Linux.
 
 
-## Annexes
+## Annexes <a name="annexes"></a>
 ### Références
 - PyDriller : https://pydriller.readthedocs.io/en/latest/#
 - Recharts : https://recharts.org/en-US/
@@ -218,7 +219,3 @@ Les normes de nomenclature des langages de programmation utilisés doivent être
 - FastAPI : https://fastapi.tiangolo.com/
 - GitHub Actions : https://docs.github.com/fr/actions
 - Docker : https://www.docker.com/
-### Définitions des Termes
-- **Commit** : Unité de modification enregistrée dans un système de contrôle de versions.
-- **GitHub** : Plateforme de gestion de versions et de collaboration pour le développement de logiciels.
-- **API** : Interface de programmation permettant à des applications de communiquer entre elles.
