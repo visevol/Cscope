@@ -4,48 +4,108 @@
 - Julien Boisvert-Simard - DUFF08079701
 - Cédric Audy - AUDC08089302
 - Félix Dufresne - DUFF08079701
+- Eddy Allard - ALLE75070006
 
 ## Dans le cadre de 
 LOG795 – Projet de fin d’étude 
 
-## Introduction
+# Table of contents
+1. [Introduction](#introduction)
+2. [Description générale](#desc_gen)
+3. [Cas d'utilisation](#use_case)
+4. [Exigences fonctionnelles](#exig_fonc)
 
-### Objectif de ce Document
+## 1. Introduction <a name="introduction"></a>
+
+### 1.1. Objectif de ce document
 Ce document a pour but de fournir une spécification des exigences logicielles (SRS) pour le développement d'un outil de visualisation interactive de l’évolution du code des logiciels sur GitHub. Il vise à définir les besoins et les fonctionnalités du projet, à clarifier les attentes des utilisateurs, et à servir de référence pour le développement et la validation du produit.
 
-### Portée de ce Document
-Ce document couvre les fonctionnalités principales de l'outil, les exigences fonctionnelles et non-fonctionnelles, les interfaces utilisateur, ainsi que les contraintes de conception. Il décrit également le contexte et la motivation du projet, l'environnement opérationnel et les utilisateurs cibles. Il inclut une estimation du temps requis.
+### 1.2. Portée de ce document
+Ce document couvre les fonctionnalités principales du système, les exigences fonctionnelles et non-fonctionnelles, les interfaces utilisateur, ainsi que les contraintes de conception. Il décrit également le contexte et la motivation du projet, l'environnement opérationnel et les utilisateurs cibles. Il inclut une estimation du temps requis. 
 
-### Aperçu du Projet
-Le projet vise à développer un outil permettant de visualiser l’évolution des changements des différents types de fichiers de code au niveau des commits sur GitHub. Il identifiera visuellement les fichiers ajoutés, les types de fichiers modifiés, la fréquence des changements, la stabilité des fichiers, et les fichiers modifiés simultanément. L'outil apportera des informations pertinentes pour les gestionnaires de projet, les développeurs et les clients afin de comprendre l'historique d'évolution du code.
+Ci-dessus, on peut voir comment le système et les entitées externes intéragissent.
 
-## Description Générale
+![Diagramme de Cas d'Utilisation](out/diagrammes-srs/portee/portee.svg)
 
-### Contexte et Motivation
+### 1.3. Définitions
+| Terme    | Définition |
+| -------- | ------- |
+| Développeur  | Toute personne contribuant à un projet GitHub.    |
+| Gestionnaire | Toute personne supervisant le déroulement d'un projet.     |
+
+### 1.4. Aperçu du Projet
+Le projet vise à développer un outil permettant de visualiser l’évolution des changements des différents types de fichiers de code au niveau des commits sur [GitHub](https://github.com/). Il identifiera visuellement les fichiers ajoutés, les types de fichiers modifiés, la fréquence des changements, la stabilité des fichiers, et les fichiers modifiés simultanément. L'outil apportera des informations pertinentes pour les gestionnaires de projet et les développeurs afin de comprendre l'historique d'évolution du code.
+
+## 2. Description générale <a name="desc_gen"></a>
+
+### 2.1 Contexte et Motivation
 Les systèmes de gestion de versions, comme GitHub, sont largement utilisés pour la collaboration dans les projets de développement logiciel. Cependant, malgré leur efficacité pour le contrôle de version et la gestion des branches, ils offrent des fonctionnalités limitées pour la visualisation des changements au fil du temps. Cela pose un défi pour les développeurs et les gestionnaires de projets qui souhaitent analyser les tendances, comprendre l'évolution du code et identifier rapidement les zones de modifications fréquentes ou les contributions clés. Une solution robuste de visualisation des données peut grandement améliorer la compréhension et la gestion du cycle de vie du développement logiciel.
 
 Notre mission consiste donc à développer une solution permettant de collecter et de visualiser les données relatives à l'évolution du code source dans un répertoire Git.
 
-### Objectifs du Projet
-Dans ce projet, nous nous engageons à développer un outil innovant permettant de visualiser l’évolution des changements de code source au niveau des commits dans les systèmes de contrôle de versions. Notre objectif principal est de fournir aux gestionnaires de projet, aux développeurs et aux clients une compréhension claire et détaillée des modifications du code source au fil du temps.
+### 2.2 Objectifs du projet
+Dans ce projet, nous développerons un outil permettant de visualiser l’évolution des changements de code source au niveau des commits dans les systèmes de contrôle de versions. Notre objectif principal est de fournir aux gestionnaires de projet, aux développeurs et aux clients une compréhension claire et détaillée des modifications du code source au fil du temps.
 
-### Retombées du Projet
-- **Amélioration de la gestion de projet** :
-  - Les gestionnaires de projet pourront mieux comprendre et anticiper les besoins en termes de développement et de maintenance grâce à une visualisation claire des tendances de modification du code.
-  - Identification des parties du code nécessitant une attention particulière ou une refactorisation.
-- **Efficacité accrue des développeurs** :
-  - Les développeurs pourront rapidement identifier les parties du code les plus sensibles et les plus modifiées, facilitant ainsi le développement et le débogage.
-  - Facilitation de la coordination entre les membres de l'équipe grâce à une meilleure compréhension des interdépendances entre les fichiers.
-- **Satisfaction accrue des clients** :
-  - La visualisation des progrès et des modifications, ainsi que la transparence accrue du projet, apporteront une meilleure compréhension de l’état d’avancement du projet et renforceront la satisfaction et la confiance des clients.
-
-### Méthodologie
+### 2.3 Méthodologie
 Pour atteindre les objectifs de ce projet, nous adopterons une méthodologie agile, ce qui nous permettra d'être flexibles et adaptatifs face aux changements et aux défis rencontrés au cours du développement. Nous utiliserons la méthode Kanban pour gérer et visualiser les tâches à accomplir et nous tiendrons des réunions hebdomadaires pour identifier et résoudre les obstacles. Les échéanciers seront aussi revus chaque semaine afin de les respecter le plus possible et de s’adapter le plus rapidement possible en cas de changement.
 
-## Exigences Fonctionnelles
+## 3. Cas d'utilisation
 
-### Description Détaillée des Fonctionnalités
-1. **Visualisation des Commits**
+**Diagramme de Cas d'Utilisation** :
+![Diagramme de Cas d'Utilisation](PFE_use_case.svg)
+
+### 3.1. Comprendre l'historique des modifications d'un fichier spécifique
+
+**Description** : Un développeur souhaite comprendre l'historique des modifications d'un fichier spécifique pour identifier les changements effectués, par qui et quand.
+
+**Acteurs** : Développeur
+
+**Préconditions** :
+- Le répertoire GitHub est déjà chargé dans l'application.
+
+**Postconditions** :
+- Le développeur peut visualiser l'historique des modifications du fichier sélectionné.
+
+**Cas de Variations** :
+- Le fichier n'existe pas dans le répertoire.
+- Le développeur n'a pas les droits d'accès au répertoire.
+
+### 3.2. Identifier les fichiers les plus modifiés pour évaluer les zones de risque du projet
+
+**Description** : Un gestionnaire de projet souhaite identifier les fichiers les plus modifiés pour évaluer les zones de risque du projet.
+
+**Acteurs** : Gestionnaire de Projet
+
+**Préconditions** :
+- Le répertoire GitHub est déjà chargé dans l'application.
+
+**Postconditions** :
+- Le gestionnaire de projet peut visualiser les fichiers les plus modifiés et évaluer les zones de risque.
+
+**Cas de Variations** :
+- Le gestionnaire n'a pas les droits d'accès au répertoire.
+- Les données de modification ne sont pas disponibles.
+
+#### 3.3. Obtenir une vue d'ensemble des changements apportés à une version du logiciel
+
+**Description** : Un client souhaite obtenir une vue d'ensemble des changements apportés à une version du logiciel pour comprendre les améliorations et les correctifs.
+
+**Acteurs** : Client
+
+**Préconditions** :
+- Le répertoire GitHub est déjà chargé dans l'application.
+
+**Postconditions** :
+- Le client peut visualiser les changements apportés à une version du logiciel.
+
+**Cas de Variations** :
+- Le client n'a pas les droits d'accès au répertoire.
+- La version du logiciel n'est pas disponible.
+
+## 4. Exigences fonctionnelles <a name="exig_fonc"></a>
+
+### Description détaillée des fonctionnalités
+1. **Visualisation des commits**
    - Afficher un graphique permettant la visualisation des modifications de fichiers dans un répertoire GitHub public.
    - Permettre de filtrer et de trier les commits par date et type de fichier.
 
@@ -64,59 +124,6 @@ Pour atteindre les objectifs de ce projet, nous adopterons une méthodologie agi
 5. **Changements Simultanés de Fichiers**
    - Visualiser les fichiers modifiés ensemble dans le même commit.
    - Permettre d'identifier les dépendances entre fichiers.
-
-### Scénarios d'Utilisation (Use Cases)
-
-**Diagramme de Cas d'Utilisation** :
-![Diagramme de Cas d'Utilisation](PFE_use_case.svg)
-
-#### 1. Comprendre l'historique des modifications d'un fichier spécifique
-
-**Description** : Un développeur souhaite comprendre l'historique des modifications d'un fichier spécifique pour identifier les changements effectués, par qui et quand.
-
-**Acteurs** : Développeur
-
-**Préconditions** :
-- Le répertoire GitHub est déjà chargé dans l'application.
-
-**Postconditions** :
-- Le développeur peut visualiser l'historique des modifications du fichier sélectionné.
-
-**Cas de Variations** :
-- Le fichier n'existe pas dans le répertoire.
-- Le développeur n'a pas les droits d'accès au répertoire.
-
-#### 2. Identifier les fichiers les plus modifiés pour évaluer les zones de risque du projet
-
-**Description** : Un gestionnaire de projet souhaite identifier les fichiers les plus modifiés pour évaluer les zones de risque du projet.
-
-**Acteurs** : Gestionnaire de Projet
-
-**Préconditions** :
-- Le répertoire GitHub est déjà chargé dans l'application.
-
-**Postconditions** :
-- Le gestionnaire de projet peut visualiser les fichiers les plus modifiés et évaluer les zones de risque.
-
-**Cas de Variations** :
-- Le gestionnaire n'a pas les droits d'accès au répertoire.
-- Les données de modification ne sont pas disponibles.
-
-#### 3. Obtenir une vue d'ensemble des changements apportés à une version du logiciel
-
-**Description** : Un client souhaite obtenir une vue d'ensemble des changements apportés à une version du logiciel pour comprendre les améliorations et les correctifs.
-
-**Acteurs** : Client
-
-**Préconditions** :
-- Le répertoire GitHub est déjà chargé dans l'application.
-
-**Postconditions** :
-- Le client peut visualiser les changements apportés à une version du logiciel.
-
-**Cas de Variations** :
-- Le client n'a pas les droits d'accès au répertoire.
-- La version du logiciel n'est pas disponible.
 
 ## Exigences d'Interface
 
