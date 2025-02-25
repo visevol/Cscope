@@ -5,7 +5,10 @@
 - Cédric Audy - AUDC08089302
 - Félix Dufresne - DUFF08079701
 - Eddy Allard - ALLE75070006
-
+- Ludovick Martin - MARL08069904
+- Félix Lavoie - LAVF75030009
+- William Nolin - NOLW76060101
+- Alexis Castonguay - CASA84020104
 ## Dans le cadre de 
 LOG795 – Projet de fin d’étude 
 
@@ -31,7 +34,7 @@ Ci-dessus, on peut voir comment le système et les entitées externes intéragis
 | Terme    | Définition |
 | -------- | ------- |
 | Développeur  | Toute personne contribuant à un projet GitHub.    |
-| Gestionnaire | Toute personne supervisant le déroulement d'un projet.     |
+| Gestionnaire | Toute personne supervisant le déroulement d'un projet. Ça pourrait aussi être une personne externe au projet tel qu'un client.    |
 
 ### 1.4. Aperçu du Projet
 Le projet vise à développer un outil permettant de visualiser l’évolution des changements des différents types de fichiers de code au niveau des commits sur [GitHub](https://github.com/). Il identifiera visuellement les fichiers ajoutés, les types de fichiers modifiés, la fréquence des changements, la stabilité des fichiers, et les fichiers modifiés simultanément. L'outil apportera des informations pertinentes pour les gestionnaires de projet et les développeurs afin de comprendre l'historique d'évolution du code.
@@ -44,7 +47,7 @@ Les systèmes de gestion de versions, comme GitHub, sont largement utilisés pou
 Notre mission consiste donc à développer une solution permettant de collecter et de visualiser les données relatives à l'évolution du code source dans un répertoire Git.
 
 ### 2.2 Objectifs du projet
-Dans ce projet, nous développerons un outil permettant de visualiser l’évolution des changements de code source au niveau des commits dans les systèmes de contrôle de versions. Notre objectif principal est de fournir aux gestionnaires de projet, aux développeurs et aux clients une compréhension claire et détaillée des modifications du code source au fil du temps.
+Dans ce projet, nous développerons un outil permettant de visualiser l’évolution des changements de code source au niveau des commits dans les systèmes de contrôle de versions. Notre objectif principal est de fournir aux gestionnaires de projet et aux développeurs une compréhension claire et détaillée des modifications du code source au fil du temps.
 
 ### 2.3 Méthodologie
 Pour atteindre les objectifs de ce projet, nous adopterons une méthodologie agile, ce qui nous permettra d'être flexibles et adaptatifs face aux changements et aux défis rencontrés au cours du développement. Nous utiliserons la méthode Kanban pour gérer et visualiser les tâches à accomplir et nous tiendrons des réunions hebdomadaires pour identifier et résoudre les obstacles. Les échéanciers seront aussi revus chaque semaine afin de les respecter le plus possible et de s’adapter le plus rapidement possible en cas de changement.
