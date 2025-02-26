@@ -8,9 +8,6 @@
         "scripting",
         "activeTab"
     ],
-    "background": {
-        "service_worker": "js/background.js"
-    },
     "content_scripts": [
         {
             "js": [
