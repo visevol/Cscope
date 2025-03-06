@@ -1,23 +1,55 @@
 // src/components/GraphDisplay.tsx
-import React, { useEffect, useLayoutEffect, useMemo, useState } from "react";
-import * as am5 from "@amcharts/amcharts5";
-import * as am5xy from "@amcharts/amcharts5/xy";
-import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
+import React, { useLayoutEffect } from "react"
+import * as am5 from "@amcharts/amcharts5"
+import * as am5xy from "@amcharts/amcharts5/xy"
+import am5themes_Animated from "@amcharts/amcharts5/themes/Animated"
 
-import { getModificationTypeFromColor } from "../utils/tooltipHelper";
+import { getModificationTypeFromColor } from "../utils/tooltipHelper"
+
+interface DataItem {
+  title: string;
+  x: number;
+  y: number;
+  color: string;
+  shape: string;
+  filetype: string;
+  modificationType: string;
+}
+
+const getRandomColor = (): string => {
+  let colors: string[] = [
+    '#FF5733', // Red
+    '#33FF57', // Green
+    '#3357FF', // Blue
+    '#FF33A1', // Pink
+    '#FFD700', // Yellow
+    '#8A2BE2', // Purple
+    '#00FA9A', // Medium spring green
+    '#FF4500', // Orange red
+    '#2E8B57', // Sea green
+    '#D2691E'  // Chocolate
+  ];
+  const randomIndex = Math.floor(Math.random() * colors.length);
+  return colors[randomIndex];
+};
 
 const MotionChartDisplay = (props: any) => {
   const data = props.fileHistoryCommitData || [];
-  const dataFormat = data.map((f: any) => {
+  const dataFormat: DataItem[] = data.map((f: any) => {
     return {
       title: f.fileName,
       x: new Date(f.Date).getTime(),
       y: f.fileId,
-      color: f.typeEvolution,
+      color: getRandomColor(),
+      shape: f.typeEvolution,
       filetype: f.filetype,
       modificationType: getModificationTypeFromColor(f.typeEvolution),
     };
   });
+
+  const createData = dataFormat.filter((item) => item.shape === 'circle');
+  const modifyData = dataFormat.filter((item) => item.shape === 'triangle');
+  const deleteData = dataFormat.filter((item) => item.shape === 'square');
 
   useLayoutEffect(() => {
     const root = am5.Root.new("chartdiv");
@@ -75,7 +107,7 @@ const MotionChartDisplay = (props: any) => {
 
     // Create series
     // https://www.amcharts.com/docs/v5/charts/xy-chart/series/
-    let series = chart.series.push(
+    let createSeries = chart.series.push(
       am5xy.LineSeries.new(root, {
         calculateAggregates: true,
         xAxis: xAxis,
@@ -90,9 +122,7 @@ const MotionChartDisplay = (props: any) => {
         }),
       })
     );
-
-    series.strokes.template.set("visible", false);
-
+    createSeries.strokes.template.set("visible", false);
     // Add bullet
     // https://www.amcharts.com/docs/v5/charts/xy-chart/series/#Bullets
     var circleTemplate = am5.Template.new<am5.Circle>({});
@@ -103,14 +133,15 @@ const MotionChartDisplay = (props: any) => {
       }
       return fill;
     });
-
-    series.bullets.push(function () {
+    createSeries.bullets.push(function () {
       var bulletCircle = am5.Circle.new(
         root,
         {
           radius: 5,
-          fill: series.get("fill"),
+          fill: createSeries.get("fill"),
           fillOpacity: 0.8,
+          stroke: am5.color(0x000000), // Black border
+          strokeWidth: 0.5 // Border thickness
         },
         circleTemplate
       );
@@ -118,10 +149,9 @@ const MotionChartDisplay = (props: any) => {
         sprite: bulletCircle,
       });
     });
-
     // Add heat rule
     // https://www.amcharts.com/docs/v5/concepts/settings/heat-rules/
-    series.set("heatRules", [
+    createSeries.set("heatRules", [
       {
         target: circleTemplate,
         min: 3,
@@ -130,8 +160,124 @@ const MotionChartDisplay = (props: any) => {
         key: "radius",
       },
     ]);
+    createSeries.data.setAll(createData);
 
-    series.data.setAll(dataFormat);
+    let modifySeries = chart.series.push(
+      am5xy.LineSeries.new(root, {
+        calculateAggregates: true,
+        xAxis: xAxis,
+        yAxis: yAxis,
+        valueYField: "y",
+        valueXField: "x",
+        seriesTooltipTarget: "bullet", // Affiche le tooltip au niveau du bullet
+        tooltip: am5.Tooltip.new(root, {
+          pointerOrientation: "horizontal",
+          labelText:
+            "[bold]{title}[/]\nDate: {valueX.formatDate('yyyy-MM-dd')}\nID: {valueY}\nType of change: {modificationType}\nFile type: {filetype}",
+        }),
+      })
+    );
+    modifySeries.strokes.template.set("visible", false);
+    // Add bullet
+    // https://www.amcharts.com/docs/v5/charts/xy-chart/series/#Bullets
+    var triangleTemplate = am5.Template.new<am5.Polygon>({});
+    triangleTemplate.adapters.add("fill", (fill, target) => {
+      const dataItem = (target as any).dataItem;
+      if (dataItem) {
+        return am5.Color.fromString(dataItem.dataContext.color);
+      }
+      return fill;
+    });
+    modifySeries.bullets.push(function () {
+      var bulletTriangle = am5.Polygon.new(
+        root,
+        {
+          points: [
+            { x: 0, y: -5 },
+            { x: 5, y: 5 },
+            { x: -5, y: 5 }
+          ],
+          fill: modifySeries.get("fill"),
+          fillOpacity: 0.8,
+          stroke: am5.color(0x000000), // Black border
+          strokeWidth: 0.5 // Border thickness
+        },
+        triangleTemplate
+      );
+      return am5.Bullet.new(root, {
+        sprite: bulletTriangle,
+      });
+    });
+
+    // Add heat rule
+    // https://www.amcharts.com/docs/v5/concepts/settings/heat-rules/
+    modifySeries.set("heatRules", [
+      {
+        target: circleTemplate,
+        min: 3,
+        max: 60,
+        dataField: "value",
+        key: "radius",
+      },
+    ]);
+    modifySeries.data.setAll(modifyData);
+
+    let deleteSeries = chart.series.push(
+      am5xy.LineSeries.new(root, {
+        calculateAggregates: true,
+        xAxis: xAxis,
+        yAxis: yAxis,
+        valueYField: "y",
+        valueXField: "x",
+        seriesTooltipTarget: "bullet", // Affiche le tooltip au niveau du bullet
+        tooltip: am5.Tooltip.new(root, {
+          pointerOrientation: "horizontal",
+          labelText:
+            "[bold]{title}[/]\nDate: {valueX.formatDate('yyyy-MM-dd')}\nID: {valueY}\nType of change: {modificationType}\nFile type: {filetype}",
+        }),
+      })
+    );
+    deleteSeries.strokes.template.set("visible", false);
+    // Add bullet
+    // https://www.amcharts.com/docs/v5/charts/xy-chart/series/#Bullets
+    var squareTemplate = am5.Template.new<am5.Rectangle>({});
+    squareTemplate.adapters.add("fill", (fill, target) => {
+      const dataItem = (target as any).dataItem;
+      if (dataItem) {
+        return am5.Color.fromString(dataItem.dataContext.color);
+      }
+      return fill;
+    });
+    deleteSeries.bullets.push(function () {
+      var bulletSquare = am5.Rectangle.new(
+        root,
+        {
+          width: 10,
+          height: 10,
+          fill: deleteSeries.get("fill"),
+          fillOpacity: 0.8,
+          stroke: am5.color(0x000000), // Black border
+          strokeWidth: 0.5 // Border thickness
+        },
+        squareTemplate
+      );
+      return am5.Bullet.new(root, {
+        sprite: bulletSquare,
+      });
+    });
+
+    // Add heat rule
+    // https://www.amcharts.com/docs/v5/concepts/settings/heat-rules/
+    deleteSeries.set("heatRules", [
+      {
+        target: circleTemplate,
+        min: 3,
+        max: 60,
+        dataField: "value",
+        key: "radius",
+      },
+    ]);
+    deleteSeries.data.setAll(deleteData);
 
     // Add cursor
     // https://www.amcharts.com/docs/v5/charts/xy-chart/cursor/
@@ -140,7 +286,7 @@ const MotionChartDisplay = (props: any) => {
       am5xy.XYCursor.new(root, {
         xAxis: xAxis,
         yAxis: yAxis,
-        snapToSeries: [series],
+        snapToSeries: [createSeries, modifySeries, deleteSeries],
       })
     );
 
@@ -162,7 +308,10 @@ const MotionChartDisplay = (props: any) => {
 
     // Make stuff animate on load
     // https://www.amcharts.com/docs/v5/concepts/animations/
-    series.appear(1000);
+    createSeries.appear(1000);
+    modifySeries.appear(1000);
+    deleteSeries.appear(1000);
+
     chart.appear(1000, 100);
 
     return () => root.dispose();
