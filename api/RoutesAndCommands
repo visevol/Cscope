@@ -1,7 +1,0 @@
-Avoir tous les fichiers modifiés par l'auteur XXX
-git log --no-merges --author="XXX" --name-only --pretty=format:"" --since="2025-01-01" --until="2025-03-01" --date=short | sort -u
-
-Avoir liste des auteurs entre 2 dates
-git log --since="2025-01-01" --until="2025-04-01" --pretty=format:"%aN" | sort -u
-
-
