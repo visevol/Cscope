@@ -5,6 +5,7 @@ import * as am5xy from "@amcharts/amcharts5/xy"
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated"
 
 import { getModificationTypeFromColor } from "../utils/tooltipHelper"
+import { stringToHexColor } from '../utils/stringToHexColor'
 
 interface DataItem {
   title: string;
@@ -16,23 +17,6 @@ interface DataItem {
   modificationType: string;
 }
 
-const getRandomColor = (): string => {
-  let colors: string[] = [
-    '#FF5733', // Red
-    '#33FF57', // Green
-    '#3357FF', // Blue
-    '#FF33A1', // Pink
-    '#FFD700', // Yellow
-    '#8A2BE2', // Purple
-    '#00FA9A', // Medium spring green
-    '#FF4500', // Orange red
-    '#2E8B57', // Sea green
-    '#D2691E'  // Chocolate
-  ];
-  const randomIndex = Math.floor(Math.random() * colors.length);
-  return colors[randomIndex];
-};
-
 const MotionChartDisplay = (props: any) => {
   const data = props.fileHistoryCommitData || [];
   const dataFormat: DataItem[] = data.map((f: any) => {
@@ -40,9 +24,10 @@ const MotionChartDisplay = (props: any) => {
       title: f.fileName,
       x: new Date(f.Date).getTime(),
       y: f.fileId,
-      color: getRandomColor(),
+      color: stringToHexColor(props.developers.includes(f.author) ? f.author : "Other"),
       shape: f.typeEvolution,
       filetype: f.filetype,
+      author: f.author,
       modificationType: getModificationTypeFromColor(f.typeEvolution),
     };
   });
@@ -118,14 +103,45 @@ const MotionChartDisplay = (props: any) => {
         tooltip: am5.Tooltip.new(root, {
           pointerOrientation: "horizontal",
           labelText:
-            "[bold]{title}[/]\nDate: {valueX.formatDate('yyyy-MM-dd')}\nID: {valueY}\nType of change: {modificationType}\nFile type: {filetype}",
+            "[bold]{title}[/]\nDate: {valueX.formatDate('yyyy-MM-dd')}\nID: {valueY}\nType of change: {modificationType}\nFile type: {filetype}\nChange author: {author}",
+        }),
+      })
+    );
+    let modifySeries = chart.series.push(
+      am5xy.LineSeries.new(root, {
+        calculateAggregates: true,
+        xAxis: xAxis,
+        yAxis: yAxis,
+        valueYField: "y",
+        valueXField: "x",
+        seriesTooltipTarget: "bullet", // Affiche le tooltip au niveau du bullet
+        tooltip: am5.Tooltip.new(root, {
+          pointerOrientation: "horizontal",
+          labelText:
+            "[bold]{title}[/]\nDate: {valueX.formatDate('yyyy-MM-dd')}\nID: {valueY}\nType of change: {modificationType}\nFile type: {filetype}\nChange author: {author}",
+        }),
+      })
+    );
+    let deleteSeries = chart.series.push(
+      am5xy.LineSeries.new(root, {
+        calculateAggregates: true,
+        xAxis: xAxis,
+        yAxis: yAxis,
+        valueYField: "y",
+        valueXField: "x",
+        seriesTooltipTarget: "bullet", // Affiche le tooltip au niveau du bullet
+        tooltip: am5.Tooltip.new(root, {
+          pointerOrientation: "horizontal",
+          labelText:
+            "[bold]{title}[/]\nDate: {valueX.formatDate('yyyy-MM-dd')}\nID: {valueY}\nType of change: {modificationType}\nFile type: {filetype}\nChange author: {author}",
         }),
       })
     );
     createSeries.strokes.template.set("visible", false);
-    // Add bullet
+
+    // Add bullets
     // https://www.amcharts.com/docs/v5/charts/xy-chart/series/#Bullets
-    var circleTemplate = am5.Template.new<am5.Circle>({});
+    let circleTemplate = am5.Template.new<am5.Circle>({});
     circleTemplate.adapters.add("fill", (fill, target) => {
       const dataItem = (target as any).dataItem;
       if (dataItem) {
@@ -133,8 +149,28 @@ const MotionChartDisplay = (props: any) => {
       }
       return fill;
     });
+    modifySeries.strokes.template.set("visible", false);
+    let triangleTemplate = am5.Template.new<am5.Polygon>( {} )
+    triangleTemplate.adapters.add("fill", (fill, target) => {
+      const dataItem = (target as any).dataItem;
+      if (dataItem) {
+        return am5.Color.fromString(dataItem.dataContext.color);
+      }
+      return fill;
+    });
+    deleteSeries.strokes.template.set("visible", false);
+    let squareTemplate = am5.Template.new<am5.Rectangle>({});
+    squareTemplate.adapters.add("fill", (fill, target) => {
+      const dataItem = (target as any).dataItem;
+      if (dataItem) {
+        return am5.Color.fromString(dataItem.dataContext.color);
+      }
+      return fill;
+    });
+
+    //Creating the bullets shapes
     createSeries.bullets.push(function () {
-      var bulletCircle = am5.Circle.new(
+      let bulletCircle = am5.Circle.new(
         root,
         {
           radius: 5,
@@ -149,47 +185,8 @@ const MotionChartDisplay = (props: any) => {
         sprite: bulletCircle,
       });
     });
-    // Add heat rule
-    // https://www.amcharts.com/docs/v5/concepts/settings/heat-rules/
-    createSeries.set("heatRules", [
-      {
-        target: circleTemplate,
-        min: 3,
-        max: 60,
-        dataField: "value",
-        key: "radius",
-      },
-    ]);
-    createSeries.data.setAll(createData);
-
-    let modifySeries = chart.series.push(
-      am5xy.LineSeries.new(root, {
-        calculateAggregates: true,
-        xAxis: xAxis,
-        yAxis: yAxis,
-        valueYField: "y",
-        valueXField: "x",
-        seriesTooltipTarget: "bullet", // Affiche le tooltip au niveau du bullet
-        tooltip: am5.Tooltip.new(root, {
-          pointerOrientation: "horizontal",
-          labelText:
-            "[bold]{title}[/]\nDate: {valueX.formatDate('yyyy-MM-dd')}\nID: {valueY}\nType of change: {modificationType}\nFile type: {filetype}",
-        }),
-      })
-    );
-    modifySeries.strokes.template.set("visible", false);
-    // Add bullet
-    // https://www.amcharts.com/docs/v5/charts/xy-chart/series/#Bullets
-    var triangleTemplate = am5.Template.new<am5.Polygon>({});
-    triangleTemplate.adapters.add("fill", (fill, target) => {
-      const dataItem = (target as any).dataItem;
-      if (dataItem) {
-        return am5.Color.fromString(dataItem.dataContext.color);
-      }
-      return fill;
-    });
     modifySeries.bullets.push(function () {
-      var bulletTriangle = am5.Polygon.new(
+      let bulletTriangle = am5.Polygon.new(
         root,
         {
           points: [
@@ -208,48 +205,8 @@ const MotionChartDisplay = (props: any) => {
         sprite: bulletTriangle,
       });
     });
-
-    // Add heat rule
-    // https://www.amcharts.com/docs/v5/concepts/settings/heat-rules/
-    modifySeries.set("heatRules", [
-      {
-        target: circleTemplate,
-        min: 3,
-        max: 60,
-        dataField: "value",
-        key: "radius",
-      },
-    ]);
-    modifySeries.data.setAll(modifyData);
-
-    let deleteSeries = chart.series.push(
-      am5xy.LineSeries.new(root, {
-        calculateAggregates: true,
-        xAxis: xAxis,
-        yAxis: yAxis,
-        valueYField: "y",
-        valueXField: "x",
-        seriesTooltipTarget: "bullet", // Affiche le tooltip au niveau du bullet
-        tooltip: am5.Tooltip.new(root, {
-          pointerOrientation: "horizontal",
-          labelText:
-            "[bold]{title}[/]\nDate: {valueX.formatDate('yyyy-MM-dd')}\nID: {valueY}\nType of change: {modificationType}\nFile type: {filetype}",
-        }),
-      })
-    );
-    deleteSeries.strokes.template.set("visible", false);
-    // Add bullet
-    // https://www.amcharts.com/docs/v5/charts/xy-chart/series/#Bullets
-    var squareTemplate = am5.Template.new<am5.Rectangle>({});
-    squareTemplate.adapters.add("fill", (fill, target) => {
-      const dataItem = (target as any).dataItem;
-      if (dataItem) {
-        return am5.Color.fromString(dataItem.dataContext.color);
-      }
-      return fill;
-    });
     deleteSeries.bullets.push(function () {
-      var bulletSquare = am5.Rectangle.new(
+      let bulletSquare = am5.Rectangle.new(
         root,
         {
           width: 10,
@@ -268,6 +225,26 @@ const MotionChartDisplay = (props: any) => {
 
     // Add heat rule
     // https://www.amcharts.com/docs/v5/concepts/settings/heat-rules/
+    createSeries.set("heatRules", [
+      {
+        target: circleTemplate,
+        min: 3,
+        max: 60,
+        dataField: "value",
+        key: "radius",
+      },
+    ]);
+    createSeries.data.setAll(createData);
+    modifySeries.set("heatRules", [
+      {
+        target: circleTemplate,
+        min: 3,
+        max: 60,
+        dataField: "value",
+        key: "radius",
+      },
+    ]);
+    modifySeries.data.setAll(modifyData);
     deleteSeries.set("heatRules", [
       {
         target: circleTemplate,
