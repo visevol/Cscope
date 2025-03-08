@@ -65,6 +65,7 @@ const HistoryFileCommitPage: React.FC = () => {
           endDate
         )
         setData( result )
+        updateDevelopers()
         setReady( true )
       }
     }
@@ -103,12 +104,13 @@ const HistoryFileCommitPage: React.FC = () => {
       const directoryPath = item.fileName.substring( 0, item.fileName.lastIndexOf( '/' ) )
       return directoryPath.toLowerCase().includes( keywordFilter.toLowerCase() )
     } )
-
+    setReady( false )
     setFilterData( filteredByKeyword )
   }, [pathFilterData, selectfilterTypeFiles, checkTypeEvolution, keywordFilter] )
 
   useEffect( () => {
     updateDevelopers()
+    setReady( true )
   }, [filterData] )
 
   function updateDevelopers () {
@@ -125,8 +127,9 @@ const HistoryFileCommitPage: React.FC = () => {
     const devCountArray = Object.entries( devCount )
     const sortedDevs = devCountArray.sort( ( a, b ) => b[ 1 ] - a[ 1 ] )
 
-    const topDevs = sortedDevs.slice( 0, 10 )
-    const others = sortedDevs.slice( 10 ) // Remaining developers
+    const numberOfTopDevs: number = 10
+    const topDevs = sortedDevs.slice( 0, numberOfTopDevs )
+    const others = sortedDevs.slice( numberOfTopDevs ) // Remaining developers
 
     // If there are any others, add them as a single "other" category
     if ( others.length > 0 ) {
@@ -134,7 +137,6 @@ const HistoryFileCommitPage: React.FC = () => {
       topDevs.push( ["Other", otherCount] )
     }
     const finalDevs = topDevs.map( ( [dev, count] ) => ( dev === "Other" ? `${dev}` : dev ) )
-
     setDevelopers( finalDevs )
   }
 
@@ -143,7 +145,7 @@ const HistoryFileCommitPage: React.FC = () => {
       <div className="row g-4">
         <div className="page col-12 col-lg-8">
           {ready ? (
-            <MotionChartDisplay fileHistoryCommitData={filterData} developers={developers}/>
+            <MotionChartDisplay fileHistoryCommitData={filterData} developers={developers} />
           ) : (
             <Spin size="large" />
           )}
