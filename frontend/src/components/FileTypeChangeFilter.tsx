@@ -78,21 +78,9 @@ const FileTypeChangeFilter = ({
           </Checkbox>
           <CheckboxGroup value={checkedList} onChange={onChange}>
             {typeEvolutionOptions.map((option) => (
-              <ConfigProvider
-                theme={{
-                  components: {
-                    Checkbox: {
-                      colorPrimary: categoryToEvolutionType.get(option),
-                      colorPrimaryHover: categoryToEvolutionType.get(option),
-                    },
-                  },
-                }}
-                key={option}
-              >
                 <Checkbox key={option} value={option}>
                   {option}
                 </Checkbox>
-              </ConfigProvider>
             ))}
           </CheckboxGroup>
         </div>

@@ -22,7 +22,7 @@ export async function fileHistoryByDate(
   categoryToEvolutionType.set("modify", TypeFileCommitEvolution.SET_FILE);
 
   const data = (response.data || []).map((point: any) => {
-    const [date, filepath, category, filetype] = point;
+    const [date, filepath, category, filetype, author] = point;
 
     if (!fileIdMap.has(filepath)) {
       fileIdMap.set(filepath, fileIdGenerator);
@@ -37,6 +37,7 @@ export async function fileHistoryByDate(
         TypeFileCommitEvolution.SET_FILE,
       filetype: filetype,
       Date: new Date(date),
+      author: author
     };
   });
 

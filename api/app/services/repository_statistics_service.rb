@@ -55,7 +55,8 @@ class RepositoryStatisticsService
         Arel.sql("strftime('%Y-%m-%d', committer_date)"),
         Arel.sql("source_files.filepath"),
         Arel.sql("MIN(source_file_changes.category)"),
-        Arel.sql("source_files.filetype")
+        Arel.sql("source_files.filetype"),
+        Arel.sql("commits.author")
       )
   end
 
