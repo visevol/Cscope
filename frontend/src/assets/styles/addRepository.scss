@@ -32,8 +32,8 @@
     }
 
     &__button {
-      background-color: #C3C8F5;
-      color: #012030;
+      background-color: #2D3142;
+      color: #fff;
       padding: 12px 10px;
       font-family: Arial, sans-serif;
       font-size: 1rem;
@@ -45,11 +45,11 @@
       margin-top: 1em;
 
       &:hover {
-        background-color: darken(#C3C8F5, 10%);
+        background-color: darken(#2D3142, 10%);
       }
 
       &:active {
-        background-color: darken(#C3C8F5, 15%);
+        background-color: darken(#2D3142, 15%);
         transform: scale(0.98);
       }
     }
