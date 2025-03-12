@@ -31,7 +31,17 @@ RUN bundle install && \
     rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
     bundle exec bootsnap precompile --gemfile
 
+
 # Copy application code
 COPY . .
 
-CMD ["./bin/rails", "server", "-b", "0.0.0.0"]
+# Install Supervisor
+RUN apt-get update && apt-get install -y supervisor
+
+# Create Supervisor configuration
+RUN mkdir -p /etc/supervisor/conf.d
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+# Start Supervisor
+CMD ["supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+
