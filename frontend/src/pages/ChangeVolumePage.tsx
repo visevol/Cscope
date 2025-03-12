@@ -1,17 +1,19 @@
-import React, { useEffect, useState } from "react";
-import { useDataSettingContext } from "../context/DataSettingContext";
-import "../assets/styles/changeVolume.scss";
-import DateAndFileInput from "../components/DateAndFileInput";
-import BuddleGraphMetrics from "../components/BubbleGraphMetrix";
-import { MetricsProps } from "../models/MetricsProps";
-import SliderFilterMetrix from "../components/SliderFilterMetrix";
-import { FileFolderCommits } from "../models/FileFolderCommits";
-import BubbleGraphDisplay from "../components/BubbleGraphDisplay";
-import { useParams } from "react-router-dom";
-import { getFileData, getFileOverTime } from "../api";
-import { SliderFilterCodeLine } from "../models/SliderFilterCodeLine";
-import { Spin } from "antd";
-import { getFileName } from "../utils/tooltipHelper";
+import React, { useEffect, useState } from "react"
+import { useDataSettingContext } from "../context/DataSettingContext"
+import "../assets/styles/changeVolume.scss"
+import DateAndFileInput from "../components/DateAndFileInput"
+import BuddleGraphMetrics from "../components/BubbleGraphMetrix"
+import { MetricsProps } from "../models/MetricsProps"
+import SliderFilterMetrix from "../components/SliderFilterMetrix"
+import { FileFolderCommits } from "../models/FileFolderCommits"
+import BubbleGraphDisplay from "../components/BubbleGraphDisplay"
+import { useParams } from "react-router-dom"
+import { getFileData, getFileOverTime } from "../api"
+import { SliderFilterCodeLine } from "../models/SliderFilterCodeLine"
+import { Spin } from "antd"
+import { getFileName } from "../utils/tooltipHelper"
+import DeveloperColorList from '../components/DevelopersColorList'
+import DeveloperSelector from '../components/DeveloperSelector'
 
 const ChangeVolumePage: React.FC = () => {
   const {
@@ -20,105 +22,113 @@ const ChangeVolumePage: React.FC = () => {
     setRepositoryId,
     startDate,
     endDate,
-    filePath,
-  } = useDataSettingContext();
+    filePath
+  } = useDataSettingContext()
   const [filterAddLineMetrics, setFilterAddLineMetrics] =
-    useState<SliderFilterCodeLine>({
+    useState<SliderFilterCodeLine>( {
       codeLines: 0,
-      maxCodeLine: 1000,
-    });
+      maxCodeLine: 1000
+    } )
 
   const [filterDeleteLineMetrics, setFilterDeleteLineMetrics] =
-    useState<SliderFilterCodeLine>({
+    useState<SliderFilterCodeLine>( {
       codeLines: 0,
-      maxCodeLine: 1000,
-    });
+      maxCodeLine: 1000
+    } )
   const [fileFolderDatas, setFileFolderDatas] = useState<FileFolderCommits[]>(
     []
-  );
-  const [ready, setReady] = useState<boolean>(false);
+  )
+  const [ready, setReady] = useState<boolean>( false )
 
-  const [bubbleMetrix, setBubbleMetrix] = useState<MetricsProps>({
+  const [bubbleMetrix, setBubbleMetrix] = useState<MetricsProps>( {
     file: "No file",
     commitCount: 0,
     codeSize: 0,
     mainAuthor: "No author",
-    modifiedDate: "No date",
-  });
+    modifiedDate: "No date"
+  } )
 
-  const { id } = useParams<{ id: string }>();
+  const { id } = useParams<{ id: string }>()
 
-  useEffect(() => {
-    if (!repositoryId) {
-      setRepositoryId(Number(id));
+  const [developers, setDevelopers] = useState<string[]>(["", "william-nolin"])
+  const [selectedDeveloper, setSelectedDeveloper] = useState<string>( "" )
+
+  useEffect( () => {
+    if ( !repositoryId ) {
+      setRepositoryId( Number( id ) )
     }
-  }, [id]);
+  }, [id] )
 
-  useEffect(() => {
-    if (repository) {
+  useEffect( () => {
+    if ( repository ) {
       const fetchData = async () => {
         const data: FileFolderCommits[] = await getFileOverTime(
           repository.id,
           startDate,
           endDate
-        );
+        )
+
         const maxAdditionsLines = Math.max(
-          ...data.map((item) => item.total_additions)
-        );
+          ...data.map( ( item ) => item.total_additions )
+        )
         const maxDeletionsLines = Math.max(
-          ...data.map((item) => item.total_deletions)
+          ...data.map( ( item ) => item.total_deletions )
+        )
+        setFilterAddLineMetrics( {
+          codeLines: 0,
+          maxCodeLine: maxAdditionsLines
+        } )
+        setFilterDeleteLineMetrics( {
+          codeLines: 0,
+          maxCodeLine: maxDeletionsLines
+        } )
+
+        console.log(selectedDeveloper)
+
+        const filteredData = data.filter((item: FileFolderCommits) =>
+          (filePath === "" || item.path === filePath) &&
+          (selectedDeveloper === "" || item.author === selectedDeveloper)
         );
-        setFilterAddLineMetrics({
-          codeLines: 0,
-          maxCodeLine: maxAdditionsLines,
-        });
-        setFilterDeleteLineMetrics({
-          codeLines: 0,
-          maxCodeLine: maxDeletionsLines,
-        });
 
-        const newPathFilterData = data.filter((item: FileFolderCommits) => {
-          return filePath === "" || item.path === filePath;
-        });
-
-        if (data && data.length > 0) {
-          let path = "";
-          if (filePath === "") {
-            const maxItem = data.reduce((max, item) =>
+        if ( data && data.length > 0 ) {
+          let path = ""
+          if ( filePath === "" ) {
+            const maxItem = data.reduce( ( max, item ) =>
               item.total_modifications > max.total_modifications ? item : max
-            );
-            path = maxItem.path;
+            )
+            path = maxItem.path
           } else {
-            path = filePath;
+            path = filePath
           }
 
-          if (path != "") {
+          if ( path != "" ) {
             try {
-              const fileData = await getFileData(repository.id, path);
-              const date = new Date(fileData.last_modification_date);
-              const formattedDate = date.toLocaleDateString("en-EN", {
+              const fileData = await getFileData( repository.id, path )
+              const date = new Date( fileData.last_modification_date )
+              const formattedDate = date.toLocaleDateString( "en-EN", {
                 year: "numeric",
                 month: "long",
-                day: "numeric",
-              });
-              setBubbleMetrix({
-                file: getFileName(path),
+                day: "numeric"
+              } )
+              setBubbleMetrix( {
+                file: getFileName( path ),
                 commitCount: fileData.commits_count,
                 codeSize: fileData.line_count,
                 mainAuthor: fileData.main_contributor.author,
-                modifiedDate: formattedDate,
-              });
-            } catch (error) { }
+                modifiedDate: formattedDate
+              } )
+            } catch ( error ) {
+            }
           }
         }
 
-        setFileFolderDatas(newPathFilterData);
-        setReady(true);
-      };
-      setReady(false);
-      fetchData();
+        setFileFolderDatas( filteredData )
+        setReady( true )
+      }
+      setReady( false )
+      fetchData()
     }
-  }, [repository, startDate, endDate, filePath]);
+  }, [repository, startDate, endDate, filePath, selectedDeveloper] )
 
   return (
     <div className="container">
@@ -144,12 +154,17 @@ const ChangeVolumePage: React.FC = () => {
               filterDeleteLineMetrics={filterDeleteLineMetrics}
               setFilterDeleteLineMetrics={setFilterDeleteLineMetrics}
             />
+            <DeveloperSelector
+              developer={selectedDeveloper}
+              setDeveloper={setSelectedDeveloper}
+              developers={developers}
+            />
             <BuddleGraphMetrics metricsProps={bubbleMetrix} />
           </div>
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ChangeVolumePage;
+export default ChangeVolumePage

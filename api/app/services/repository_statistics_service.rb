@@ -71,7 +71,8 @@ class RepositoryStatisticsService
         Arel.sql("source_files.filepath"),
         Arel.sql("SUM(source_file_changes.additions)"),
         Arel.sql("SUM(source_file_changes.deletions)"),
-        Arel.sql("SUM(source_file_changes.additions + source_file_changes.deletions)")
+        Arel.sql("SUM(source_file_changes.additions + source_file_changes.deletions)"),
+        Arel.sql("commits.author")
       )
   end
 end

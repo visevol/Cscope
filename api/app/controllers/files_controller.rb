@@ -32,12 +32,13 @@ class FilesController < ApplicationController
     stats = RepositoryStatisticsService
       .new(current_repository)
       .file_modifications_by_date(start_date: start_date_filter, end_date: end_date_filter)
-      .map! do |filepath, total_additions, total_deletions, total_modifications|
+      .map! do |filepath, total_additions, total_deletions, total_modifications, author|
         {
           filepath: filepath,
           total_additions: total_additions,
           total_deletions: total_deletions,
-          total_modifications: total_modifications
+          total_modifications: total_modifications,
+          author: author
         }
       end
 
