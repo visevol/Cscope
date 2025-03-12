@@ -17,7 +17,7 @@ jobs:
     - name: Build the Docker image
       run: docker build -f ./api/Dockerfile.dev ./api --tag ${{ secrets.DOCKER_USERNAME }}/pfe019-cscope:latest
 
-    - name: Log in to Docker Hub (with Access Token)
+    - name: Log in to Docker Hub
       uses: docker/login-action@v3
       with:
           username: ${{ secrets.DOCKER_USERNAME }}
