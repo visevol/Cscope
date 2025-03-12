@@ -6,4 +6,5 @@ export interface FileHistoryCommit {
   typeEvolution: TypeFileCommitEvolution;
   filetype: string;
   Date: Date;
+  author: string;
 }

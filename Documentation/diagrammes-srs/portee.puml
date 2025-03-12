@@ -1,0 +1,19 @@
+@startuml
+
+
+actor Développeurs as d #LightBlue
+actor Gestionnaires as g #LightBlue
+rectangle CScope as c #LightGreen
+rectangle GitHub as gh #LightBlue
+
+c --> gh : Affichage des données de
+d --> c : Consulte 
+g --> c : Consulte
+d --> gh : Publie du code sur
+
+legend right
+    |Couleur| Type |
+    |<#LightGreen>| Système |
+    |<#LightBlue>| Entité Externe|
+endlegend
+@enduml
