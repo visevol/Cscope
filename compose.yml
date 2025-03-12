@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   cscope:
-    image: cscope:latest
+    image: eddyallard1/pfe019-cscope:latest
     container_name: cscope
     restart: always
     ports:
