@@ -19,9 +19,7 @@ interface DataItem {
 
 const MotionChartDisplay = (props: any) => {
   const data = props.fileHistoryCommitData || [];
-  console.log(props.developers)
   const dataFormat: DataItem[] = data.map((f: any) => {
-    console.log(f.author)
     return {
       title: f.fileName,
       x: new Date(f.Date).getTime(),
