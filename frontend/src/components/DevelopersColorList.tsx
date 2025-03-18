@@ -1,25 +1,31 @@
-import { Checkbox, ConfigProvider, Select } from 'antd'
-import { categoryToEvolutionType, typeEvolutionOptions } from '../utils/tooltipHelper'
+import { ConfigProvider } from 'antd'
 import { stringToHexColor } from '../utils/stringToHexColor'
 
-
-const DeveloperColorList = ({developers}:{developers: string[]}) => {
+const DeveloperColorList = ({ developers, showDevs, onChange }: { developers: string[], showDevs: boolean,  onChange: React.Dispatch<React.SetStateAction<boolean>> }) => {
   return (
     <ConfigProvider
       theme={{
         components: {
           Select: {
-            paddingXXS: 18,
-          },
-        },
+            paddingXXS: 18
+          }
+        }
       }}
     >
       <div className="date-file-input" style={{ marginTop: 20 }}>
         <div>
-          <label>Developers color legend</label>
+          <label style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            <input
+              type="checkbox"
+              checked={showDevs}
+              onChange={() => onChange(prev => !prev)}
+            />
+            Show developers
+          </label>
+
           {developers.length > 0 ? (
-            <ul>
-              {developers.map((dev, index) => (
+            <ul style={{ display: showDevs ? 'block' : 'none' }}>
+              {developers.map( ( dev, index ) => (
                 <li key={index} style={{ display: "flex", alignItems: "center", gap: "10px" }}>
                   <div
                     style={{
@@ -41,6 +47,6 @@ const DeveloperColorList = ({developers}:{developers: string[]}) => {
       </div>
     </ConfigProvider>
   );
-};
+}
 
 export default DeveloperColorList;
