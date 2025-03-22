@@ -38,7 +38,6 @@ const HistoryFileCommitPage: React.FC = () => {
 
   //Devs in the scope of the chart (filtered)
   const [developers, setDevelopers] = useState<string[]>( [] )
-  const [showDevs, setShowDevs] = useState<boolean>( false )
 
   useEffect( () => {
     const fetchFilesTypes = async () => {
@@ -107,7 +106,7 @@ const HistoryFileCommitPage: React.FC = () => {
     } )
     setReady( false )
     setFilterData( filteredByKeyword )
-  }, [pathFilterData, selectfilterTypeFiles, checkTypeEvolution, keywordFilter, showDevs] )
+  }, [pathFilterData, selectfilterTypeFiles, checkTypeEvolution, keywordFilter] )
 
   useEffect( () => {
     updateDevelopers()
@@ -146,7 +145,7 @@ const HistoryFileCommitPage: React.FC = () => {
       <div className="row g-4">
         <div className="page col-12 col-lg-8">
           {ready ? (
-            <MotionChartDisplay fileHistoryCommitData={filterData} developers={developers} showDevs={showDevs} />
+            <MotionChartDisplay fileHistoryCommitData={filterData} developers={developers} showDevs={false} />
           ) : (
             <Spin size="large" />
           )}
@@ -163,11 +162,6 @@ const HistoryFileCommitPage: React.FC = () => {
             setFilterTypeFiles={setSelectFilterTypeFiles}
             checkedList={checkTypeEvolution}
             setCheckedList={setCheckTypeEvolution}
-          />
-          <DeveloperColorList
-            developers={developers}
-            showDevs={showDevs}
-            onChange={setShowDevs}
           />
         </div>
       </div>

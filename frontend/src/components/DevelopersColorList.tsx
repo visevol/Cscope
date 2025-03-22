@@ -1,7 +1,7 @@
-import { ConfigProvider } from 'antd'
-import { stringToHexColor } from '../utils/stringToHexColor'
+import { ConfigProvider } from 'antd';
+import { stringToHexColor } from '../utils/stringToHexColor';
 
-const DeveloperColorList = ({ developers, showDevs, onChange }: { developers: string[], showDevs: boolean,  onChange: React.Dispatch<React.SetStateAction<boolean>> }) => {
+const DeveloperColorList = ({ developers, showDevs }: { developers: string[], showDevs: boolean }) => {
   return (
     <ConfigProvider
       theme={{
@@ -15,11 +15,6 @@ const DeveloperColorList = ({ developers, showDevs, onChange }: { developers: st
       <div className="date-file-input" style={{ marginTop: 20 }}>
         <div>
           <label style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-            <input
-              type="checkbox"
-              checked={showDevs}
-              onChange={() => onChange(prev => !prev)}
-            />
             Show developers
           </label>
 
@@ -47,6 +42,6 @@ const DeveloperColorList = ({ developers, showDevs, onChange }: { developers: st
       </div>
     </ConfigProvider>
   );
-}
+};
 
 export default DeveloperColorList;
