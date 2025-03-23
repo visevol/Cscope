@@ -84,305 +84,96 @@ const MotionChartDisplay = ( props: any ) => {
       0
     )
 
-    if ( !props.showDevs ) {
-      // Create series
-      // https://www.amcharts.com/docs/v5/charts/xy-chart/series/
-      let series = chart.series.push(
-        am5xy.LineSeries.new( root, {
-          calculateAggregates: true,
-          xAxis: xAxis,
-          yAxis: yAxis,
-          valueYField: "y",
-          valueXField: "x",
-          seriesTooltipTarget: "bullet", // Affiche le tooltip au niveau du bullet
-          tooltip: am5.Tooltip.new( root, {
-            pointerOrientation: "horizontal",
-            labelText:
-              "[bold]{title}[/]\nDate: {valueX.formatDate('yyyy-MM-dd')}\nID: {valueY}\nType of change: {modificationType}\nFile type: {filetype}"
-          } )
-        } )
-      )
-
-      series.strokes.template.set( "visible", false )
-
-      // Add bullet
-      // https://www.amcharts.com/docs/v5/charts/xy-chart/series/#Bullets
-      var circleTemplate = am5.Template.new<am5.Circle>( {} )
-      circleTemplate.adapters.add( "fill", ( fill, target ) => {
-        const dataItem = ( target as any ).dataItem
-        if ( dataItem ) {
-          return am5.Color.fromString( dataItem.dataContext.color )
-        }
-        return fill
-      } )
-
-      series.bullets.push( function () {
-        var bulletCircle = am5.Circle.new(
-          root,
-          {
-            radius: 5,
-            fill: series.get( "fill" ),
-            fillOpacity: 0.8
-          },
-          circleTemplate
-        )
-        return am5.Bullet.new( root, {
-          sprite: bulletCircle
+    // Create series
+    // https://www.amcharts.com/docs/v5/charts/xy-chart/series/
+    let series = chart.series.push(
+      am5xy.LineSeries.new( root, {
+        calculateAggregates: true,
+        xAxis: xAxis,
+        yAxis: yAxis,
+        valueYField: "y",
+        valueXField: "x",
+        seriesTooltipTarget: "bullet", // Affiche le tooltip au niveau du bullet
+        tooltip: am5.Tooltip.new( root, {
+          pointerOrientation: "horizontal",
+          labelText:
+            "[bold]{title}[/]\nDate: {valueX.formatDate('yyyy-MM-dd')}\nID: {valueY}\nType of change: {modificationType}\nFile type: {filetype}"
         } )
       } )
+    )
 
-      // Add heat rule
-      // https://www.amcharts.com/docs/v5/concepts/settings/heat-rules/
-      series.set( "heatRules", [
+    series.strokes.template.set( "visible", false )
+
+    // Add bullet
+    // https://www.amcharts.com/docs/v5/charts/xy-chart/series/#Bullets
+    var circleTemplate = am5.Template.new<am5.Circle>( {} )
+    circleTemplate.adapters.add( "fill", ( fill, target ) => {
+      const dataItem = ( target as any ).dataItem
+      if ( dataItem ) {
+        return am5.Color.fromString( dataItem.dataContext.color )
+      }
+      return fill
+    } )
+
+    series.bullets.push( function () {
+      var bulletCircle = am5.Circle.new(
+        root,
         {
-          target: circleTemplate,
-          min: 3,
-          max: 60,
-          dataField: "value",
-          key: "radius"
-        }
-      ] )
-
-      series.data.setAll( dataFormat )
-
-      // Add cursor
-      // https://www.amcharts.com/docs/v5/charts/xy-chart/cursor/
-      chart.set(
-        "cursor",
-        am5xy.XYCursor.new( root, {
-          xAxis: xAxis,
-          yAxis: yAxis,
-          snapToSeries: [series]
-        } )
+          radius: 5,
+          fill: series.get( "fill" ),
+          fillOpacity: 0.8
+        },
+        circleTemplate
       )
-
-      // Add scrollbars
-      // https://www.amcharts.com/docs/v5/charts/xy-chart/scrollbars/
-      chart.set(
-        "scrollbarX",
-        am5.Scrollbar.new( root, {
-          orientation: "horizontal"
-        } )
-      )
-
-      chart.set(
-        "scrollbarY",
-        am5.Scrollbar.new( root, {
-          orientation: "vertical"
-        } )
-      )
-
-      // Make stuff animate on load
-      // https://www.amcharts.com/docs/v5/concepts/animations/
-      series.appear( 1000 )
-    } else {
-      const createData = dataFormat.filter( ( item ) => item.modificationType === "Added file" )
-      const modifyData = dataFormat.filter( ( item ) => item.modificationType === "Updated file" )
-      const deleteData = dataFormat.filter( ( item ) => item.modificationType === "Deleted file" )
-
-      // Create series
-      // https://www.amcharts.com/docs/v5/charts/xy-chart/series/
-      let createSeries = chart.series.push(
-        am5xy.LineSeries.new( root, {
-          calculateAggregates: true,
-          xAxis: xAxis,
-          yAxis: yAxis,
-          valueYField: "y",
-          valueXField: "x",
-          seriesTooltipTarget: "bullet", // Affiche le tooltip au niveau du bullet
-          tooltip: am5.Tooltip.new( root, {
-            pointerOrientation: "horizontal",
-            labelText:
-              "[bold]{title}[/]\nDate: {valueX.formatDate('yyyy-MM-dd')}\nID: {valueY}\nType of change: {modificationType}\nFile type: {filetype}\nChange author: {author}"
-          } )
-        } )
-      )
-      let modifySeries = chart.series.push(
-        am5xy.LineSeries.new( root, {
-          calculateAggregates: true,
-          xAxis: xAxis,
-          yAxis: yAxis,
-          valueYField: "y",
-          valueXField: "x",
-          seriesTooltipTarget: "bullet", // Affiche le tooltip au niveau du bullet
-          tooltip: am5.Tooltip.new( root, {
-            pointerOrientation: "horizontal",
-            labelText:
-              "[bold]{title}[/]\nDate: {valueX.formatDate('yyyy-MM-dd')}\nID: {valueY}\nType of change: {modificationType}\nFile type: {filetype}\nChange author: {author}"
-          } )
-        } )
-      )
-      let deleteSeries = chart.series.push(
-        am5xy.LineSeries.new( root, {
-          calculateAggregates: true,
-          xAxis: xAxis,
-          yAxis: yAxis,
-          valueYField: "y",
-          valueXField: "x",
-          seriesTooltipTarget: "bullet", // Affiche le tooltip au niveau du bullet
-          tooltip: am5.Tooltip.new( root, {
-            pointerOrientation: "horizontal",
-            labelText:
-              "[bold]{title}[/]\nDate: {valueX.formatDate('yyyy-MM-dd')}\nID: {valueY}\nType of change: {modificationType}\nFile type: {filetype}\nChange author: {author}"
-          } )
-        } )
-      )
-      createSeries.strokes.template.set( "visible", false )
-
-      // Add bullets
-      // https://www.amcharts.com/docs/v5/charts/xy-chart/series/#Bullets
-      let circleTemplate = am5.Template.new<am5.Circle>( {} )
-      circleTemplate.adapters.add( "fill", ( fill, target ) => {
-        const dataItem = ( target as any ).dataItem
-        if ( dataItem ) {
-          return am5.Color.fromString( dataItem.dataContext.color )
-        }
-        return fill
+      return am5.Bullet.new( root, {
+        sprite: bulletCircle
       } )
-      modifySeries.strokes.template.set( "visible", false )
-      let triangleTemplate = am5.Template.new<am5.Polygon>( {} )
-      triangleTemplate.adapters.add( "fill", ( fill, target ) => {
-        const dataItem = ( target as any ).dataItem
-        if ( dataItem ) {
-          return am5.Color.fromString( dataItem.dataContext.color )
-        }
-        return fill
+    } )
+
+    // Add heat rule
+    // https://www.amcharts.com/docs/v5/concepts/settings/heat-rules/
+    series.set( "heatRules", [
+      {
+        target: circleTemplate,
+        min: 3,
+        max: 60,
+        dataField: "value",
+        key: "radius"
+      }
+    ] )
+
+    series.data.setAll( dataFormat )
+
+    // Add cursor
+    // https://www.amcharts.com/docs/v5/charts/xy-chart/cursor/
+    chart.set(
+      "cursor",
+      am5xy.XYCursor.new( root, {
+        xAxis: xAxis,
+        yAxis: yAxis,
+        snapToSeries: [series]
       } )
-      deleteSeries.strokes.template.set( "visible", false )
-      let squareTemplate = am5.Template.new<am5.Polygon>( {} )
-      squareTemplate.adapters.add( "fill", ( fill, target ) => {
-        const dataItem = ( target as any ).dataItem
-        if ( dataItem ) {
-          return am5.Color.fromString( dataItem.dataContext.color )
-        }
-        return fill
+    )
+
+    // Add scrollbars
+    // https://www.amcharts.com/docs/v5/charts/xy-chart/scrollbars/
+    chart.set(
+      "scrollbarX",
+      am5.Scrollbar.new( root, {
+        orientation: "horizontal"
       } )
+    )
 
-      //Creating the bullets shapes
-      createSeries.bullets.push( function () {
-        let bulletCircle = am5.Circle.new(
-          root,
-          {
-            radius: 5,
-            fill: createSeries.get( "fill" ),
-            fillOpacity: 0.8,
-            stroke: am5.color( 0x000000 ), // Black border
-            strokeWidth: 0.5 // Border thickness
-          },
-          circleTemplate
-        )
-        return am5.Bullet.new( root, {
-          sprite: bulletCircle
-        } )
+    chart.set(
+      "scrollbarY",
+      am5.Scrollbar.new( root, {
+        orientation: "vertical"
       } )
-      modifySeries.bullets.push( function () {
-        let bulletTriangle = am5.Polygon.new(
-          root,
-          {
-            points: [
-              { x: 0, y: -5 },
-              { x: 5, y: 5 },
-              { x: -5, y: 5 }
-            ],
-            fill: modifySeries.get( "fill" ),
-            fillOpacity: 0.8,
-            stroke: am5.color( 0x000000 ), // Black border
-            strokeWidth: 0.5 // Border thickness
-          },
-          triangleTemplate
-        )
-        return am5.Bullet.new( root, {
-          sprite: bulletTriangle
-        } )
-      } )
-      deleteSeries.bullets.push( function () {
-        let bulletSquare = am5.Polygon.new(
-          root,
-          {
-            points: [
-              { x: -5, y: -5 }, // Top-left
-              { x: 5, y: -5 },  // Top-right
-              { x: 5, y: 5 },   // Bottom-right
-              { x: -5, y: 5 }   // Bottom-left
-            ],
-            fill: deleteSeries.get( "fill" ),
-            fillOpacity: 0.8,
-            stroke: am5.color( 0x000000 ), // Black border
-            strokeWidth: 0.5 // Border thickness
-          },
-          squareTemplate
-        )
-        return am5.Bullet.new( root, {
-          sprite: bulletSquare
-        } )
-      } )
+    )
 
-      // Add heat rule
-      // https://www.amcharts.com/docs/v5/concepts/settings/heat-rules/
-      createSeries.set( "heatRules", [
-        {
-          target: circleTemplate,
-          min: 3,
-          max: 60,
-          dataField: "value",
-          key: "radius"
-        }
-      ] )
-      createSeries.data.setAll( createData )
-      modifySeries.set( "heatRules", [
-        {
-          target: circleTemplate,
-          min: 3,
-          max: 60,
-          dataField: "value",
-          key: "radius"
-        }
-      ] )
-      modifySeries.data.setAll( modifyData )
-      deleteSeries.set( "heatRules", [
-        {
-          target: circleTemplate,
-          min: 3,
-          max: 60,
-          dataField: "value",
-          key: "radius"
-        }
-      ] )
-      deleteSeries.data.setAll( deleteData )
-
-      // Add cursor
-      // https://www.amcharts.com/docs/v5/charts/xy-chart/cursor/
-      chart.set(
-        "cursor",
-        am5xy.XYCursor.new( root, {
-          xAxis: xAxis,
-          yAxis: yAxis,
-          snapToSeries: [createSeries, modifySeries, deleteSeries]
-        } )
-      )
-
-      // Add scrollbars
-      // https://www.amcharts.com/docs/v5/charts/xy-chart/scrollbars/
-      chart.set(
-        "scrollbarX",
-        am5.Scrollbar.new( root, {
-          orientation: "horizontal"
-        } )
-      )
-
-      chart.set(
-        "scrollbarY",
-        am5.Scrollbar.new( root, {
-          orientation: "vertical"
-        } )
-      )
-
-      // Make stuff animate on load
-      // https://www.amcharts.com/docs/v5/concepts/animations/
-      createSeries.appear( 1000 )
-      modifySeries.appear( 1000 )
-      deleteSeries.appear( 1000 )
-    }
+    // Make stuff animate on load
+    // https://www.amcharts.com/docs/v5/concepts/animations/
+    series.appear( 1000 )
 
     chart.appear( 1000, 100 )
 

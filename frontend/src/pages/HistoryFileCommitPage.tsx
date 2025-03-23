@@ -65,7 +65,6 @@ const HistoryFileCommitPage: React.FC = () => {
           endDate
         )
         setData( result )
-        updateDevelopers()
         setReady( true )
       }
     }
@@ -109,36 +108,8 @@ const HistoryFileCommitPage: React.FC = () => {
   }, [pathFilterData, selectfilterTypeFiles, checkTypeEvolution, keywordFilter] )
 
   useEffect( () => {
-    updateDevelopers()
     setReady( true )
   }, [filterData] )
-
-  function updateDevelopers () {
-    let newDevs: string[] = []
-    filterData.forEach( ( dataUnit, index ) => {
-      newDevs.push( dataUnit.author )
-    } )
-
-    const devCount: { [ key: string ]: number } = {}
-    newDevs.forEach( dev => {
-      devCount[ dev ] = ( devCount[ dev ] || 0 ) + 1
-    } )
-
-    const devCountArray = Object.entries( devCount )
-    const sortedDevs = devCountArray.sort( ( a, b ) => b[ 1 ] - a[ 1 ] )
-
-    const numberOfTopDevs: number = 10
-    const topDevs = sortedDevs.slice( 0, numberOfTopDevs )
-    const others = sortedDevs.slice( numberOfTopDevs ) // Remaining developers
-
-    // If there are any others, add them as a single "other" category
-    if ( others.length > 0 ) {
-      const otherCount = others.reduce( ( acc, dev ) => acc + dev[ 1 ], 0 )
-      topDevs.push( ["Other", otherCount] )
-    }
-    const finalDevs = topDevs.map( ( [dev, count] ) => ( dev === "Other" ? `${dev}` : dev ) )
-    setDevelopers( finalDevs )
-  }
 
   return (
     <div className="container">
