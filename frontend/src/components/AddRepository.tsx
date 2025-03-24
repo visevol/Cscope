@@ -12,8 +12,7 @@ import { useDataSettingContext } from "../context/DataSettingContext";
 import { useGithub } from "../hooks/github";
 
 const AddRepository: React.FC = () => {
-  const [autoLoadedUrl, setAutoLoadedUrl] = useState<string>('');
-  const [url, setUrl] = useState<string>('');
+  const [url, setUrl] = useState<string>("");
   const [loadRepository, setLoadRepository] = useState<boolean>(false);
   const {
     setRepository,
@@ -25,52 +24,34 @@ const AddRepository: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-		//Implementing the setInterval method
-		if (loadRepository) {
-			let interval: any;
+    //Implementing the setInterval method
+    if (loadRepository) {
+      let interval: any;
 
-			const fetchData = async () => {
-				const data = await createRepositoryByUrl(url);
+      const fetchData = async () => {
+        const data = await createRepositoryByUrl(url);
 
-				interval = setInterval(async () => {
-					try {
-						const repo = await getRepositoryById(data.id);
-						if (repo.last_synced_at) {
-							setStartDate(dayjs().subtract(1, "month").format("YYYY-MM-DD"));
-							setEndDate(dayjs().format("YYYY-MM-DD"));
-							setFilePath("");
-							setRepository(data);
-							setRepositoryId(data.id);
-							setLoadRepository(false);
-							return navigate(`/repository/${data.id}/change-volume`);
-						}
-					} catch (error) {}
-				}, 1000);
-			};
-
-			fetchData();
-			//Clearing the interval
-			return () => clearInterval(interval);
-		} else {
-      try{
-        if (chrome) {
-          chrome.tabs.query({ active: true }).then((tabs) => {
-            const repoUrl = tabs[0].url?.match(
-              `^https://github.com/[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+`
-            );
-            if (repoUrl) {
-              setAutoLoadedUrl(repoUrl[0]);
+        interval = setInterval(async () => {
+          try {
+            const repo = await getRepositoryById(data.id);
+            if (repo.last_synced_at) {
+              setStartDate(dayjs().subtract(1, "month").format("YYYY-MM-DD"));
+              setEndDate(dayjs().format("YYYY-MM-DD"));
+              setFilePath("");
+              setRepository(data);
+              setRepositoryId(data.id);
+              setLoadRepository(false);
+              return navigate(`/repository/${data.id}/change-volume`);
             }
-          });
-        }
-      } catch (e) {}
-		}
-	}, [loadRepository]);
+          } catch (error) {}
+        }, 1000);
+      };
 
-  useEffect(() => {
-    if(autoLoadedUrl)
-      analyseRepository(autoLoadedUrl)
-  }, [autoLoadedUrl])
+      fetchData();
+      //Clearing the interval
+      return () => clearInterval(interval);
+    }
+  }, [loadRepository]);
 
   const handleEnterPress = async () => {
     analyseRepository(url);
@@ -100,23 +81,45 @@ const AddRepository: React.FC = () => {
   };
 
   const repoUrl = useGithub();
-
+  useEffect(() => {
+    if (repoUrl) {
+      setUrl(repoUrl);
+    }
+  }, [repoUrl]);
 
   return (
     <div className="cscope">
       <h1 className="cscope__title">CScope</h1>
-      <p className="cscope__subtitle">Insert repository URL</p>
+      {!repoUrl && <p className="cscope__subtitle">Insert repository URL</p>}
       <div className="cscope__search">
         {!loadRepository ? (
           <div>
-            <Input
-              className="cscope__input"
-              value={repoUrl}
-              placeholder="Insert URL and press enter"
-              onPressEnter={handleEnterPress}
-              onChange={(e) => setUrl(e.target.value)}
-            />
-            <button className="cscope__button" type="button" onClick={handleEnterPress}>Confirm</button>
+            {!repoUrl ? (
+              <>
+                <Input
+                  className="cscope__input"
+                  value={url}
+                  placeholder="Insert URL and press enter"
+                  onPressEnter={handleEnterPress}
+                  onChange={(e) => setUrl(e.target.value)}
+                />
+                <button
+                  className="cscope__button"
+                  type="button"
+                  onClick={handleEnterPress}
+                >
+                  Confirm
+                </button>
+              </>
+            ) : (
+              <button
+                className="cscope__button"
+                type="button"
+                onClick={handleEnterPress}
+              >
+                Analyze
+              </button>
+            )}
           </div>
         ) : (
           <Spin size="large" />
