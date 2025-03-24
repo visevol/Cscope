@@ -9,6 +9,7 @@ import {
   searchRepositoryByUrl,
 } from "../api";
 import { useDataSettingContext } from "../context/DataSettingContext";
+import { useGithub } from "../hooks/github";
 
 const AddRepository: React.FC = () => {
   const [autoLoadedUrl, setAutoLoadedUrl] = useState<string>('');
@@ -98,6 +99,8 @@ const AddRepository: React.FC = () => {
     }
   };
 
+  const repoUrl = useGithub();
+
 
   return (
     <div className="cscope">
@@ -108,7 +111,7 @@ const AddRepository: React.FC = () => {
           <div>
             <Input
               className="cscope__input"
-              value={url}
+              value={repoUrl}
               placeholder="Insert URL and press enter"
               onPressEnter={handleEnterPress}
               onChange={(e) => setUrl(e.target.value)}
