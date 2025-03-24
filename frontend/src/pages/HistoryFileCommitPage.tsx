@@ -11,7 +11,6 @@ import FileTypeChangeFilter from "../components/FileTypeChangeFilter"
 import KeywordFilter from "../components/KeywordFilter"
 import { useParams } from "react-router-dom"
 import { evolutionTypeToCategory, typeEvolutionOptions } from "../utils/tooltipHelper"
-import DeveloperColorList from '../components/DevelopersColorList'
 
 const HistoryFileCommitPage: React.FC = () => {
   const [data, setData] = useState<FileHistoryCommit[]>( [] )
@@ -35,9 +34,6 @@ const HistoryFileCommitPage: React.FC = () => {
   const { id } = useParams<{ id: string }>()
 
   const [keywordFilter, setKeywordFilter] = useState<string>( "" )
-
-  //Devs in the scope of the chart (filtered)
-  const [developers, setDevelopers] = useState<string[]>( [] )
 
   useEffect( () => {
     const fetchFilesTypes = async () => {
@@ -116,7 +112,7 @@ const HistoryFileCommitPage: React.FC = () => {
       <div className="row g-4">
         <div className="page col-12 col-lg-8">
           {ready ? (
-            <MotionChartDisplay fileHistoryCommitData={filterData} developers={developers} showDevs={false} />
+            <MotionChartDisplay fileHistoryCommitData={filterData} />
           ) : (
             <Spin size="large" />
           )}

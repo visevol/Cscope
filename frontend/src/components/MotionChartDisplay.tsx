@@ -23,7 +23,7 @@ const MotionChartDisplay = ( props: any ) => {
       title: f.fileName,
       x: new Date( f.Date ).getTime(),
       y: f.fileId,
-      color: props.showDevs ? stringToHexColor( props.developers.includes( f.author ) ? f.author : "Other" ) : f.typeEvolution,
+      color: props.showDevs ? stringToHexColor( props.developers?.includes( f.author ) ? f.author : "Other" ) : f.typeEvolution,
       filetype: f.filetype,
       author: f.author,
       modificationType: getModificationTypeFromColor( f.typeEvolution )
