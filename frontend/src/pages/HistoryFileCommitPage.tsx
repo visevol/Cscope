@@ -11,7 +11,6 @@ import FileTypeChangeFilter from "../components/FileTypeChangeFilter"
 import KeywordFilter from "../components/KeywordFilter"
 import { useParams } from "react-router-dom"
 import { evolutionTypeToCategory, typeEvolutionOptions } from "../utils/tooltipHelper"
-import DeveloperColorList from '../components/DevelopersColorList'
 
 const HistoryFileCommitPage: React.FC = () => {
   const [data, setData] = useState<FileHistoryCommit[]>( [] )
@@ -35,9 +34,6 @@ const HistoryFileCommitPage: React.FC = () => {
   const { id } = useParams<{ id: string }>()
 
   const [keywordFilter, setKeywordFilter] = useState<string>( "" )
-
-  //Devs in the scope of the chart (filtered)
-  const [developers, setDevelopers] = useState<string[]>( [] )
 
   useEffect( () => {
     const fetchFilesTypes = async () => {
@@ -65,7 +61,6 @@ const HistoryFileCommitPage: React.FC = () => {
           endDate
         )
         setData( result )
-        updateDevelopers()
         setReady( true )
       }
     }
@@ -109,43 +104,15 @@ const HistoryFileCommitPage: React.FC = () => {
   }, [pathFilterData, selectfilterTypeFiles, checkTypeEvolution, keywordFilter] )
 
   useEffect( () => {
-    updateDevelopers()
     setReady( true )
   }, [filterData] )
-
-  function updateDevelopers () {
-    let newDevs: string[] = []
-    filterData.forEach( ( dataUnit, index ) => {
-      newDevs.push( dataUnit.author )
-    } )
-
-    const devCount: { [ key: string ]: number } = {}
-    newDevs.forEach( dev => {
-      devCount[ dev ] = ( devCount[ dev ] || 0 ) + 1
-    } )
-
-    const devCountArray = Object.entries( devCount )
-    const sortedDevs = devCountArray.sort( ( a, b ) => b[ 1 ] - a[ 1 ] )
-
-    const numberOfTopDevs: number = 10
-    const topDevs = sortedDevs.slice( 0, numberOfTopDevs )
-    const others = sortedDevs.slice( numberOfTopDevs ) // Remaining developers
-
-    // If there are any others, add them as a single "other" category
-    if ( others.length > 0 ) {
-      const otherCount = others.reduce( ( acc, dev ) => acc + dev[ 1 ], 0 )
-      topDevs.push( ["Other", otherCount] )
-    }
-    const finalDevs = topDevs.map( ( [dev, count] ) => ( dev === "Other" ? `${dev}` : dev ) )
-    setDevelopers( finalDevs )
-  }
 
   return (
     <div className="container">
       <div className="row g-4">
         <div className="page col-12 col-lg-8">
           {ready ? (
-            <MotionChartDisplay fileHistoryCommitData={filterData} developers={developers} />
+            <MotionChartDisplay fileHistoryCommitData={filterData} />
           ) : (
             <Spin size="large" />
           )}
@@ -162,9 +129,6 @@ const HistoryFileCommitPage: React.FC = () => {
             setFilterTypeFiles={setSelectFilterTypeFiles}
             checkedList={checkTypeEvolution}
             setCheckedList={setCheckTypeEvolution}
-          />
-          <DeveloperColorList
-            developers={developers}
           />
         </div>
       </div>

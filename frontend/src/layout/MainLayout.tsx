@@ -46,6 +46,7 @@ const MainLayout: React.FC = () => {
                 <nav>
                   <NavLink to="change-volume">Change volume</NavLink>
                   <NavLink to="history-file">File history</NavLink>
+                  <NavLink to="developers-input">Developer's input</NavLink>
                 </nav>
               </div>
             </div>
