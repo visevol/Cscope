@@ -15,7 +15,7 @@ const DeveloperColorList = ({ developers, showDevs }: { developers: string[], sh
       <div className="date-file-input" style={{ marginTop: 20 }}>
         <div>
           <label style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-            Show developers
+            Developers
           </label>
 
           {developers.length > 0 ? (
