@@ -1,11 +1,7 @@
 import { Checkbox, CheckboxProps, ConfigProvider, Select } from "antd";
 import { SizeType } from "antd/es/config-provider/SizeContext";
-import { TypeFileCommitEvolution } from "../enum/TypeFileCommitEvolution";
 import { useState } from "react";
-import {
-  categoryToEvolutionType,
-  typeEvolutionOptions,
-} from "../utils/tooltipHelper";
+import { categoryToEvolutionType, typeEvolutionOptions } from "../utils/tooltipHelper";
 
 const CheckboxGroup = Checkbox.Group;
 
@@ -39,13 +35,12 @@ const FileTypeChangeFilter = ({
   const onCheckAllChange: CheckboxProps["onChange"] = (e) => {
     setCheckedList(e.target.checked ? typeEvolutionOptions : []);
   };
+
   return (
     <ConfigProvider
       theme={{
-        components: {
-          Select: {
-            paddingXXS: 18,
-          },
+        token: {
+          colorPrimary: '#2D3142', // Change the primary color (blue by default)
         },
       }}
     >
@@ -78,9 +73,9 @@ const FileTypeChangeFilter = ({
           </Checkbox>
           <CheckboxGroup value={checkedList} onChange={onChange}>
             {typeEvolutionOptions.map((option) => (
-                <Checkbox key={option} value={option}>
-                  {option}
-                </Checkbox>
+              <Checkbox key={option} value={option}>
+                {option}
+              </Checkbox>
             ))}
           </CheckboxGroup>
         </div>

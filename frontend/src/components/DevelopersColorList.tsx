@@ -15,7 +15,7 @@ const DeveloperColorList = ({ developers, showDevs }: { developers: string[], sh
       <div className="date-file-input" style={{ marginTop: 20 }}>
         <div>
           <label style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-            Show developers
+            Developers : 
           </label>
 
           {developers.length > 0 ? (
@@ -27,16 +27,15 @@ const DeveloperColorList = ({ developers, showDevs }: { developers: string[], sh
                       width: "20px",
                       height: "20px",
                       backgroundColor: stringToHexColor( dev ),
-                      borderRadius: "4px",
-                      border: "1px solid #000"
+                      borderRadius: "50%"
                     }}
                   ></div>
-                  <span>{dev} - {stringToHexColor( dev )}</span>
+                  <span  style={{color : "#2d3142", fontWeight: "bold"}}>{dev} - {stringToHexColor( dev )}</span>
                 </li>
               ) )}
             </ul>
           ) : (
-            <p>No colors available.</p>
+            <p style={{color : "#2d3142"}}>No colors available.</p>
           )}
         </div>
       </div>
