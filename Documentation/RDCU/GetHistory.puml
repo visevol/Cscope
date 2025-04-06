@@ -1,0 +1,22 @@
+@startuml
+actor "Client" as Client
+participant "Extension" as UI
+participant "Ruby API" as API
+participant "Github repository" as GR
+participant "Base de donnée" as DB
+
+Client -> UI : Load current repository  
+UI -> API : Get https://github.com/visevol/Cscope
+API -> DB : Check if repo exists
+alt Repo exists
+    API -> DB : Get commits
+    API -> UI : Return commit info
+else Repo does not exist
+    API -> GR : Git clone https://github.com/visevol/Cscope
+    GR -> API : 
+    API -> DB : Save repo
+    API -> UI : Return commit info
+end
+UI -> UI : Filter data
+UI -> Client : Display graph
+@enduml
