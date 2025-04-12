@@ -1,25 +1,50 @@
 # Interface utilisateur
-## Utilisation
-Voici les étapes à suivre pour afficher et interpréter le graphique de visualisation de l'évolution du code source d'un répertoire GitHub public.
+## Utilisation de l'extension
 
-1. Entrer l'URL du répertoire GitHub dans le champ textuel "Répertoire Source".
-2. Sélectionner les plages de dates pour lesquelles vous souhaitez afficher les commits. Pour ce faire, deux options sont possibles :
-   - En utilisant les boutons de sélection de plages de dates préfabriqués.
-   - En entrant les dates manuellement dans les sélecteurs de date.
-3. Une fois ces étapes complétées, le graphique devrait s'afficher pour les dates sélectionnées.
+Pour commencer à utiliser l'exension et voir les données des commits, il suffit de naviguer vers un dépôt de code public sur *GitHub*, par exemple https://github.com/visevol/Cscope, et appuyer sur le bouton **Analyze** qu ise trouve au bas de la page.
 
-## Interprétation
-Le graphique a trois dimensions :
-- X : Le numéro de commit
-- Y : Le numéro de fichier
-- Z : Le nombre de lignes modifiées
+## Onglets de fonctionnalités
+Voici le fonctionnement des 3 principaux onglets:
+### Onglet Change volume
+Permet de visualiser la volatilité des fichiers du projet.
+En effet, plus le cercle représentant le fichier est gros, plus le nombre de modifications sur le fichier (en nombre de lignes) est élevé.
+La couleur des cercles indique si les modifications sont majoritairement des lignes ajoutées ou des lignes retirées.
+Une section dans le coin inférieur droit montre des données quant au nombre de commits qui ont affecté le fichier, la dernière date de modification et l'auteur principal.
 
-Chaque cellule dans le graphique indique une modification d'un fichier dans le code source du répertoire.
+### Onglet File history
+Permet de visualiser, dans un graphique, le type des modifications selon le temps.
+La dimension X représente la date du commit, tandis que la dimension Y représente le numéro d'identification du fichier modifié.
+La couleur des points dans le graphique représente le type du changement:
+- **Bleu** pour un ajout de fichier
+- **Jaune** pour une modification de fichier
+- **Rouge** pour une suppression de fichier.
 
-Au survol d'une cellule dans le graphique, une infobulle contenant les détails sur la modification effectuée s'affichera.
+### Onglet Developer's input
+Permet de visualiser, dans un graphique, le l'auteur des modifications selon le temps.
+La dimension X représente la date du commit, tandis que la dimension Y représente le numéro d'identification du fichier modifié.
+La couleur des points dans le graphique représente le développeur associé à la modification.
+Une légende est disponible dans le coin inférieur droit. Si plus de 10 développeurs sont affichés dans le tableau, les 9 ayant le plus de modifications seront affichés et le reste sera regroupé sous *Autre*.
 
-La couleur d'une cellule indique la classe du fichier qui a été modifié.
-
-La forme d'une cellule indique le type de modification qui a été effectué sur le fichier.
-
-La légende située sous le graphique indique la signification des différentes couleurs et formes.
+## Filtres disponibles
+Certains filtres reviennent dans plus d'un onglet, voici leur utilité:
+### Filtre de sélection de fichier
+Permet d'utiliser une liste déroulante pour choisir un fichier spécifique à analyser.
+Le premier object sélectionnable permet d'annuler la sélection pour voir tous les fichiers confondus.
+### Filtre de date
+Permet de sélectionner la période à afficher pour l'analyse.
+Les 2 éléments représentent la date de début et la date de fin.
+On peut par exemple choisir les dates entre 2 versions du logiciel pour visualiser le *changelog*.
+### Filtre des lignes ajoutées et supprimées
+Permet de montrer seulement les fichiers ayant eu plus de X modifications du type choisi, soit en ajout ou en suppression de lignes.
+Ce filtre pourrait par exemple servir à voir un fichier ayant eu beaucoup d'ajouts dans une certaine période.
+### Filtre du chemin du fichier
+Permet de filtrer selon des mots qui seraient présents dans le chemin du fichier, un peu comme une expression régulière.
+On pourrait par exemple s'en servir avec le mot *test* pour voir les fichiers comprenant ce mot dans leur nom ou dans un dossier de tests.
+### Filtre du type de fichier
+Permet de choisir le type de fichier dans une liste déroulante.
+Il existe plusieurs types, par exemple pour des langages de programmation ou des fichiers de configuration.
+### Filtre du type de modification
+Permet de cocher pour voir un ou plusieurs éléments parmis:
+- Les fichiers ajoutés
+- Les fichiers modifiés
+- Les fichiers supprimés
