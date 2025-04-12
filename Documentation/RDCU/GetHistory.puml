@@ -1,22 +1,21 @@
 @startuml
 actor "Client" as Client
 participant "Extension" as UI
-participant "Ruby API" as API
-participant "Github repository" as GR
-participant "Base de donnée" as DB
-
-Client -> UI : Load current repository  
+participant "API Ruby" as API
+participant "Dépôt Github" as GR
+participant "Base de données" as DB
+Client -> UI : Charger le dépôt actuel
 UI -> API : Get https://github.com/visevol/Cscope
-API -> DB : Check if repo exists
-alt Repo exists
-    API -> DB : Get commits
-    API -> UI : Return commit info
-else Repo does not exist
+API -> DB : Vérifier si le dépôt existe
+alt Le dépôt existe
+    API -> DB : Obtenir les commits
+    API -> UI : Retourner les informations des commits
+else Le dépôt n'existe pas
     API -> GR : Git clone https://github.com/visevol/Cscope
     GR -> API : 
-    API -> DB : Save repo
-    API -> UI : Return commit info
+    API -> DB : Sauvegarder le dépôt
+    API -> UI : Retourner les informations des commits
 end
-UI -> UI : Filter data
-UI -> Client : Display graph
+UI -> UI : Filtrer les données
+UI -> Client : Afficher le graphique
 @enduml
