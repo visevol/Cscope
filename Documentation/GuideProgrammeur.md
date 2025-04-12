@@ -4,71 +4,31 @@
 
 ## Setup (local)
 
-Configurer un environnement virtuel.
+- Démarrer le serveur via Docker Compose
 ```
-pip install virtual env
-python3 -m virtualenv .venv  
-source .venv/bin/activate
+docker compose up
 ```
-Installer les requis
+- Arrêter le serveur via Docker Compose
 ```
-pip install -r resources/requirements.txt
-
-fastapi run api/main.py
+docker compose down
 ```
-Query l'API sur localhost:8000
-
-### Tests
-
-Après avoir fait les étapes ci-haut :
-```
-pip install -r resources/requirements_test.txt
-pytest
-```
-Les tests dépendent de ce repo (à changer éventuellement) : https://github.com/cedric-audy/test_repo_pfe
-
-
-## Docker
-```
-docker build . -t fastapi 
-docker run -d --name fastapi -p 80:80 fastapi
-```
-
-va rouler sur http://127.0.0.1/docs (ou local host)
-
-## Caching
-
-`pydriller` fonctionne d'une façon très lente pour notre besoin : ne permet pas d'accéder rapidement à une tranche de commit, la librairie clone le repo en entier et traite tous les commits (même si ce n'est pas demandé).
-
-Pour pallier cette lacune, nous avons implémenté un mécanisme de caching avec TinyDB (permet de maintenir une DB locale de format `.json`)
-
-Voici comment le caching fonctionne pour un repo donné :
-
-* L'utilisateur fait une requête pour avoir les commits d'un repo
-* L'API vérifie dans la DB (`cache/db.json`) pour une entrée pour ce repo
-* S'il n'y en a pas, pydriller prend le repo *entier* et store les commits dans la DB
-* 
-
-
-## Custom pydriller
-
-Ce repo a besoin d'une [version modifiée de pydriller](https://github.com/cedric-audy/pydriller/) (la version originale fonctionne mais est beaucoup moins performante). Le package se trouve dans `pydriller/`
-
-Si vous voulez re-package, cloner le [repo](https://github.com/cedric-audy/pydriller/), run :
-`python setup.py sdist bdist_wheel`
-
-Copier coller le fichier .whl dans `/dist` vers le `pydriller/` du présent repo.
+On peut query l'API sur localhost:8000
 
 # Frontend
 
 ## Installation
-- Create new `.env` file at root of project
-- Paste the content of the `.env.example` file to the new .env file
-- Install dependencies: `npm install`
-- To start to project: `npm run dev`
 
-## Docker
+### Construire l'extension
+Utiliser npm
+```
+npm run ext-build
+```
 
-- Create docker container: `docker build . -t "frontend"`
-- Run the container: `docker run -d -p 8080:8080 frontend`
-- Access the application: [http://localhost:8080/](http://localhost:8080/)
+### Application standalone (legacy)
+Utiliser npm
+```
+npm run start
+```
+
+## Installer l'extension sur Chrome
+Aller dans la page des extensions du navigateur et utiliser la fonction *load-unpacked* en choisisant le dossier *dist* généré préalablement.
