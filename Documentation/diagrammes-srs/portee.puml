@@ -3,12 +3,12 @@
 
 actor Développeurs as d #LightBlue
 actor Gestionnaires as g #LightBlue
-rectangle CScope as c #LightGreen
+rectangle CScope as cs #LightGreen
 rectangle GitHub as gh #LightBlue
 
-c --> gh : Affichage des données de
-d --> c : Consulte 
-g --> c : Consulte
+cs --> gh : Affichage des données de
+d --> cs : Consulte 
+g --> cs : Consulte
 d --> gh : Publie du code sur
 
 legend right
