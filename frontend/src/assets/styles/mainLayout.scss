@@ -1,37 +1,40 @@
-@import "_variables";
+#cscope-root {
+  @import "_variables";
 
-.main-layout {
-  padding: 20px;
+  .main-layout {
+    padding: 20px;
 
-  nav {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    gap: 0.5rem;
+    nav {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      gap: 0.5rem;
 
-    a {
-      background-color: $bg-button;
-      color: $text-page-color;
-      padding: 1rem 0;
-      flex-grow: 1;
-      text-align: center;
-      text-decoration: none;
-      font-weight: bold;
-      transition: background-color 0.3s, color 0.3s;
+      a {
+        background-color: $bg-button;
+        color: $text-page-color;
+        padding: 1rem 0;
+        flex-grow: 1;
+        text-align: center;
+        text-decoration: none;
+        font-weight: bold;
+        transition: background-color 0.3s, color 0.3s;
 
-      &:hover, &.active {
-        background-color: $bg-active-color;
-        color: $bg-button;
-      }
+        &:hover,
+        &.active {
+          background-color: $bg-active-color;
+          color: $bg-button;
+        }
 
-      &:first-child {
-        border-top-left-radius: $border-radius;
-        border-bottom-left-radius: $border-radius;
-      }
+        &:first-child {
+          border-top-left-radius: $border-radius;
+          border-bottom-left-radius: $border-radius;
+        }
 
-      &:last-child {
-        border-top-right-radius: $border-radius;
-        border-bottom-right-radius: $border-radius;
+        &:last-child {
+          border-top-right-radius: $border-radius;
+          border-bottom-right-radius: $border-radius;
+        }
       }
     }
   }

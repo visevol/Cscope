@@ -5,15 +5,15 @@ actor "Client" as Client
 
 rectangle {
   Dev --> (Visualiser Historique des Modifications)
-  PM --> (Visualiser Fichiers les Plus Modifiés)
-  Client --> (Visualiser Changements de la Version)
+  PM --> (Visualiser Historique Fichiers)
+  Client --> (Visualiser Contribution)
 
   (Visualiser Historique des Modifications) .> (Charger Répertoire GitHub) : include
   (Visualiser Historique des Modifications) .> (Sélectionner Fichier) : include
 
-  (Visualiser Fichiers les Plus Modifiés) .> (Charger Répertoire GitHub) : include
+  (Visualiser Historique Fichiers) .> (Charger Répertoire GitHub) : include
 
-  (Visualiser Changements de la Version) .> (Charger Répertoire GitHub) : include
-  (Visualiser Changements de la Version) .> (Sélectionner Version) : include
+  (Visualiser Contribution) .> (Charger Répertoire GitHub) : include
+  (Visualiser Contribution) .> (Sélectionner Version) : include
 }
 @enduml

@@ -1,4 +1,3 @@
-//Ce script est uniquement utilisé par l'extension, voir le script.
 chrome.runtime.onInstalled.addListener(() => {
 	chrome.declarativeContent.onPageChanged.removeRules(undefined, () => {
 		let showActionOnGithub = {

@@ -40,7 +40,8 @@ module.exports = {
         new CopyPlugin({
             patterns: [
                 { from: "manifest.json", to: "../manifest.json" },
-                { from: "background.js", to: "./background.js"}
+                { from: "src/extension/background.js", to: "./background.js"},
+                { from: "src/extension/content.js", to: "./content.js"}
             ]
         }),
         ...getHtmlPlugins(["index"])

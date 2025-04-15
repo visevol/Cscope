@@ -1,0 +1,47 @@
+@import '_variables';
+
+html[data-color-mode="dark"] {
+  --primary-bg-color: #{$primary-bg-color-dark};
+  --secondary-bg-color: #{$secondary-bg-color-dark};
+  --button-bg-color: #{$button-bg-color-dark};
+  --font-color: #{$font-color-dark};
+  --header-color: #{$header-color-dark};
+  --border-radius: #{$border-radius-dark};
+  --active-button-bg: #{$active-button-bg-dark};
+  --inactive-button-bg: #{$inactive-button-bg-dark};
+  --inactive-button-color: #{$inactive-button-color-dark};
+  --text-color: #{$text-color-dark};
+  --title-color: #{$title-color-dark};
+  --background-color: #{$background-color-dark};
+  --input-bg-color: #{$input-bg-color-dark};
+  --input-border-color: #{$input-border-color-dark};
+  --text-page-color: #{$text-page-color-dark};
+  --title-page-color: #{$title-page-color-dark};
+  --box-shadow: #{$box-shadow-dark};
+  --bg-active-color: #{$bg-active-color-dark};
+  --bg-button: #{$bg-button-dark};
+  --hover-color: #{$hover-color-dark};
+}
+
+html[data-color-mode="light"] {
+  --primary-bg-color: #{$primary-bg-color};
+  --secondary-bg-color: #{$secondary-bg-color};
+  --button-bg-color: #{$button-bg-color};
+  --font-color: #{$font-color};
+  --header-color: #{$header-color};
+  --border-radius: #{$border-radius};
+  --active-button-bg: #{$active-button-bg};
+  --inactive-button-bg: #{$inactive-button-bg};
+  --inactive-button-color: #{$inactive-button-color};
+  --text-color: #{$text-color};
+  --title-color: #{$title-color};
+  --background-color: #{$background-color};
+  --input-bg-color: #{$input-bg-color};
+  --input-border-color: #{$input-border-color};
+  --text-page-color: #{$text-page-color};
+  --title-page-color: #{$title-page-color};
+  --box-shadow: #{$box-shadow};
+  --bg-active-color: #{$bg-active-color};
+  --bg-button: #{$bg-button};
+  --hover-color: #{$hover-color};
+}

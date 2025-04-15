@@ -59,12 +59,20 @@ const BubbleGraphDisplay = ({
         pinchZoom: true,
       })
     );
+        // change zoom button color to red
 
     let zoomTools = zoomableContainer.children.push(
       am5.ZoomTools.new(root, {
         target: zoomableContainer,
       })
     );
+    root.interfaceColors.set("primaryButton", am5.color(0x2d3142));
+
+    // change zoom button-hover color to black
+    root.interfaceColors.set("primaryButtonHover", am5.color(0x000000));
+    root.interfaceColors.set("primaryButtonDown", am5.color(0x000000));
+    root.interfaceColors.set("primaryButtonActive", am5.color(0x000000));
+
 
     // Create series
     let series = zoomableContainer.contents.children.push(

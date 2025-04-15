@@ -1,9 +1,9 @@
+version: '3.8'
+
 services:
-  api:
-    build:
-      context: ./api
-      dockerfile: Dockerfile.dev
-    volumes:
-      - ./api:/rails/
+  cscope:
+    image: eddyallard1/pfe019-cscope:latest
+    container_name: cscope
+    restart: always
     ports:
       - "3000:3000"
