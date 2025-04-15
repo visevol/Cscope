@@ -1,19 +1,25 @@
 @startuml PFE_use_case
 actor "Développeur" as Dev
 actor "Gestionnaire de Projet" as PM
-actor "Client" as Client
 
 rectangle {
-  Dev --> (Visualiser Historique des Modifications)
-  PM --> (Visualiser Historique Fichiers)
-  Client --> (Visualiser Contribution)
+  (Visualiser Contribution) as VC
+  (Visualiser Historique Fichiers) as VHF
+  (Visualiser Historique des Modifications) as VHM
 
-  (Visualiser Historique des Modifications) .> (Charger Répertoire GitHub) : include
-  (Visualiser Historique des Modifications) .> (Sélectionner Fichier) : include
+  Dev --> VHM
+  PM --> VHF
+  Dev --> VC
+  PM --> VC
 
-  (Visualiser Historique Fichiers) .> (Charger Répertoire GitHub) : include
+  VHM .> (Charger Répertoire GitHub) : include
+  VHM ..> (Sélectionner Fichier) : include
 
-  (Visualiser Contribution) .> (Charger Répertoire GitHub) : include
-  (Visualiser Contribution) .> (Sélectionner Version) : include
+  VHF ..> (Charger Répertoire GitHub) : include
+
+  VC ..> (Charger Répertoire GitHub) : include
+  VC .> (Sélectionner Version) : include
+
+  VHM -[hidden]right- VC
 }
 @enduml
