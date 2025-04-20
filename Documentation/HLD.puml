@@ -1,6 +1,5 @@
 @startuml
 
-left to right direction
 skinparam componentStyle rectangle
 
 actor Utilisateur as U
@@ -10,33 +9,28 @@ database "GitHub Repositories" as GHRepo
 
 rectangle Cscope as CS {
     node "Front-End" as FE {
-        component React {
+        component React as react {
             card "Affichage des données"
             card "Affichage des endpoints"
         }
     }
 
     node "Back-End" as BE {
-        component FastAPI {
-            component Router
-            component Service
-            component PyDriller
-        }
+        component "Ruby on Rails" as ROR
+        
     }
 }
 
 
 node GitHub as GH
 
-U --> FE : "Je consulte un repo X dans Cscope"
-UGH --> GH : "Je consulte un repo public dans GitHub"
-GH --> FE : GitHub application
-FE <--> BE : "Requête / Réponse"
-PyDriller --> GHRepo : "Récupération des données"
-Router --> Service
-Service --> PyDriller
+U -down-> FE : "Je consulte un repo X dans Cscope"
+UGH -down-> GH : "Je consulte un repo public dans GitHub"
+GH -RIGHT-> FE : << extension navigateur >>
+FE <-down-> BE : "Requête / Réponse"
+ROR -down-> GHRepo : "Récupération des données"
 
-note bottom of FE
+note right of FE
     Docker container
 end note
 
